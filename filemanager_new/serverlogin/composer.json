@@ -1,0 +1,7 @@
+{
+    "require": {
+        "spomky-labs/otphp": "^11.4",
+        "symfony/polyfill-mbstring": "^1.33",
+        "psr/clock": "^1.0"
+    }
+}
