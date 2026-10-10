@@ -1086,14 +1086,14 @@
      
   
     function move_file(data_path, path) {
-  //    alert('Move file function called');
+
      const moveData = [];
       console.log('MoveData:    '+moveData.length);
       console.log('data:    '+data.length);
         
 
       if(data.length >= 2 )
-      {
+        { 
       console.log("more files are selected");
 
         moveData.push(...data);
@@ -1130,23 +1130,15 @@
            window.location.reload();
         })
         .catch(error => {
-          console.log('Error in the main.phh file ' + error);
-          alert('Error in the main.phh file ' + error);
-           window.location.reload();
+          console.log(error);
+          alert('Error:' + error);
+          window.location.reload();
         });
 
       }
 
    function  func_deletefiles() {
     console.log("deletefiles");
-    
-    // for( var i = 0; i < data.length; i++)
-    //     {
-    //     console.log("action :"+data[i]);
-    //     }  
-
-
-
 
     if (confirm("Press a button!\nEither OK or Cancel.")) {
       
@@ -1167,8 +1159,8 @@
            window.location.reload();
         })
         .catch(error => {
-          console.log('Error in the main.phh file ' + error);
-          alert('Error in the main.phh file ' + error);
+          console.log(error);
+          alert('Error:  ' + error);
            //window.location.reload();
         });
 
