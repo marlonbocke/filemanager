@@ -43,8 +43,9 @@ if (!isset($_SESSION["user_path"])) {
     
 }  
 
-function check_Move($absoluteCpath, $data, $absoluteDpath )
+function checkP_Move($absoluteCpath, $data, $absoluteDpath)
 {
+    session_start();
     if (!isset($_SESSION["user_path"])) {
         return false;
     }
@@ -62,25 +63,31 @@ function check_Move($absoluteCpath, $data, $absoluteDpath )
             return false;
         }
 
+        if (!is_dir($pathDestination )) 
+        {
+            return false;    
+        }
+
     $checkedDestinationPath = $pathDestination; 
     
-    $checkedCurrentPath = [];
+    $checkedCurrentPaths = [];
     
+    $currentpaths = rtrim($absoluteCpath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+
+         if (!str_starts_with($currentpaths, $basePrefix)) {
+            return false;
+        }
+
+
     //check currentpaths
     foreach ($data as $i => $item) 
-    {
-        $currentpaths = rtrim($absoluteCpath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+    {   
+       $checkedCurrentPaths[$i] = $currentpaths . $item;
 
-        if (!str_starts_with($currentpaths , $basePrefix)) {
-            return false;
-        }
-        if (!file_exists($currentpaths . $item)) {
-            return false;
-        }
+        // if (!file_exists($checkedCurrentPaths[$i]) && !is_dir($checkedCurrentPaths[$i])) {       //this is not working 
+        //     return false;
+        // }
 
-        $checkedCurrentPaths[$i] = $currentpaths . $item;
-        
-    
     }
 
     return [$checkedDestinationPath, $checkedCurrentPaths];
@@ -89,10 +96,12 @@ function check_Move($absoluteCpath, $data, $absoluteDpath )
 
 
 
-// Actions: create folder, rename, download, open, move, delete
+// Actions: create folder, rename, download, open, move, delete, upload
 
 // function: check_CreateRename
 // create folder: $absoluteCpath, $requestname, $ID
+
+
 // rename:        $absoluteCpath, $requestnewname, $oldname, $ID
 
 // function: check_DownloadOpenDelete
