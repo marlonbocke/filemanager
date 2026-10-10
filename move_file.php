@@ -4,13 +4,13 @@ $json = file_get_contents('php://input');
 $data = json_decode($json, true);
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(403);
-    exit('Forbidden');
+    echo json_encode(['error' => 'Something went wrong. Please try again later.']);
+    exit;
 }
 
 
 if (!isset($data['destination']) || !is_array($data['source'])) {
-    echo json_encode(['message' => 'Something went wrong. Please try again later.']);
+    echo json_encode(['error' => 'Something went wrong. Please try again later.']);
     exit;
 }
 
@@ -24,39 +24,35 @@ foreach($array_source as $i => $item){
 $absoluteCpath = $_SESSION["newpath"] ?? $_SESSION["baseFileDir"];
 
 if(!isset($absoluteCpath)){
-    echo json_encode(['message' => 'absoluteCpath is not set.  ']);
+    echo json_encode(['error' => 'absoluteCpath is not set.  ']);
     exit;
  }
 
 require_once 'checkpermissions.php';
  $result = checkP_Move($absoluteCpath, $data, $absoluteDpath);
 
-if(!isset($result)){
-    echo json_encode(['message' => 'WFT what is that?  ']);
+if(!isset($result) || $result == false){
+    echo json_encode(['error' => 'Forbidden: You do not have permission to access this file']);
     exit;
  }
 
- if($result == false){
-    echo json_encode(['message' => 'Access denied: $result false ']);
-    exit;
-}
 $checkedCurrentPaths = $result[1];       
 $checkedDestinationPath = $result[0];    
 
 
  if(!isset($checkedCurrentPaths) ) {
-     echo json_encode(['message' => 'checkedCurrentPaths is not set']);
+     echo json_encode(['error' => 'checkedCurrentPaths is not set']);
      exit;
 }
 
 if(!isset($checkedDestinationPath))
  {
-    echo json_encode(['message' => '$checkedDestinationPath is not set']);
+    echo json_encode(['error' => '$checkedDestinationPath is not set']);
     exit;
  }   
 
 if (!is_dir($checkedDestinationPath)) {
-    echo json_encode(['message' => 'Directory is not a valid destination path']);
+    echo json_encode(['error' => 'Directory is not a valid destination path']);
     exit;
 }
    
