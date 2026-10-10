@@ -33,10 +33,12 @@ if (!isset($_SESSION["user_path"])) {
       
         } else 
         {
+
         $realFile = $absoluteCpath . '/' . $data;
         if (!file_exists($realFile) ) {                  //check if the file or directory exists
         return false;
         }
+        
         return $realFile;  //return the real file path if all checks pass 
         }
 
@@ -45,15 +47,16 @@ if (!isset($_SESSION["user_path"])) {
 
 function checkP_Move($absoluteCpath, $data, $absoluteDpath)
 {
-    session_start();
     if (!isset($_SESSION["user_path"])) {
         return false;
     }
+
     $userPath = $_SESSION['user_path'];
     $basePrefix = rtrim($userPath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-
+    $checkedCurrentPaths = [];
+ 
     //check pathDestination
-        $pathDestination = rtrim($absoluteDpath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+    $pathDestination = rtrim($absoluteDpath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 
         if (!str_starts_with($pathDestination, $basePrefix)) {
             return false;
@@ -70,20 +73,17 @@ function checkP_Move($absoluteCpath, $data, $absoluteDpath)
 
     $checkedDestinationPath = $pathDestination; 
     
-    $checkedCurrentPaths = [];
-    
-    $currentpaths = rtrim($absoluteCpath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+    //check currentpath
+    $currentpath = rtrim($absoluteCpath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 
-         if (!str_starts_with($currentpaths, $basePrefix)) {
+         if (!str_starts_with($currentpath, $basePrefix)) {
             return false;
         }
 
-
-    //check currentpaths
+    
     foreach ($data as $i => $item) 
     {   
-       $checkedCurrentPaths[$i] = $currentpaths . $item;
-
+       $checkedCurrentPaths[$i] = $currentpath . $item;
         // if (!file_exists($checkedCurrentPaths[$i]) && !is_dir($checkedCurrentPaths[$i])) {       //this is not working 
         //     return false;
         // }
