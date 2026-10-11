@@ -423,3 +423,58 @@ $userPath = $absoluteCpath;
         // return false;
         // }
         return $realFile;  //return the real file path if all checks pass 
+
+
+
+
+
+
+
+
+11.10.2026
+
+   //----------works only in Safari-----------------------------
+        // echo '           
+        //     <script>
+        //     window.open(
+        //     "open_pdf.php",
+        //     "PDF_Viewer",
+        //     "width=1000,height=700,resizable=yes,scrollbars=yes"
+        //         );
+        //     window.location.href = "main.php?newpath=' . urlencode($userPath) . '";
+        //     </script>';
+        //-----------------------------------------------------------------------------
+
+      if(substr($filename, -4) == '.pdf')
+    {      
+        $_SESSION['pdf_window'] = $realFile;
+        session_write_close();
+         exec("php /var/www/html/filemanager/open_pdf.php > /dev/null 2>&1 &");
+        // header('Location: main.php?newpath=' . urlencode($userPath));
+        header('Location: main.php');
+
+      } else if(substr($filename, -5) == '.jpeg' || substr($filename, -4) == '.jpg' || substr($filename, -4) == '.png' || substr($filename, -4) == '.gif' || substr($filename, -4) == '.webp' || substr($filename, -4) == '.PNG')
+      { 
+         
+        $_SESSION['image_window'] = $realFile;
+        exec("php /var/www/html/filemanager/open_pdf.php > /dev/null 2>&1 &");
+        // header('Location: main.php?newpath=' . urlencode($userPath));
+        header('Location: main.php');
+        exit;
+    } else if(strtoupper(substr($filename, -4)) == '.MOV' || strtoupper(substr($filename, -4)) == '.MP4' || strtoupper(substr($filename, -5)) == '.WEBM' || strtoupper(substr($filename, -4)) == '.AVI' || strtoupper(substr($filename, -4)) == '.MKV')
+    {
+        $_SESSION['movie_window'] = $realFile;
+        session_write_close();
+         exec("php /var/www/html/filemanager/open_movie.php > /dev/null 2>&1 &");
+        
+    } else 
+    {
+     exit("Something went wrong");
+    }
+    
+    //session_write_close();
+    header('Location: main.php');
+    exit;
+
+
+
