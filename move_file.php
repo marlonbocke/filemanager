@@ -1,4 +1,5 @@
 <?php
+ error_log("----------------movefile-------------------- \n", 3, '/var/www/html/filemanager_new/debug.log');
 session_start();
 $json = file_get_contents('php://input');
 $data = json_decode($json, true);
@@ -8,28 +9,30 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-
 if (!isset($data['destination']) || !is_array($data['source'])) {
     echo json_encode(['error' => 'Something went wrong. Please try again later.']);
     exit;
 }
 
-$absoluteDpath = $data['destination'];
 $array_source = $data['source'];
-
-foreach($array_source as $i => $item){
-  $data[$i] = basename($item);
- } 
 
 $absoluteCpath = $_SESSION["newpath"] ?? $_SESSION["baseFileDir"];
 
-if(!isset($absoluteCpath)){
-    echo json_encode(['error' => 'absoluteCpath is not set.  ']);
-    exit;
- }
+if(!realpath($data['destination']))
+   {
+    $relativDpath = $data['destination'];    
+    $absoluteDpath = $absoluteCpath. DIRECTORY_SEPARATOR . $relativDpath; 
+   } else  
+    $absoluteDpath = $data['destination'];
+
+
+foreach($array_source as $i => $item){
+  $dataArray[$i] = basename($item);
+ } 
+
 
 require_once 'checkpermissions.php';
- $result = checkP_Move($absoluteCpath, $data, $absoluteDpath);
+ $result = checkP_Move($absoluteCpath, $dataArray, $absoluteDpath);
 
 if(!isset($result) || $result == false){
     echo json_encode(['error' => 'Forbidden: You do not have permission to access this file']);
@@ -45,8 +48,8 @@ $checkedDestinationPath = $result[0];
      exit;
 }
 
-if(!isset($checkedDestinationPath))
- {
+
+if(!isset($checkedDestinationPath)){
     echo json_encode(['error' => '$checkedDestinationPath is not set']);
     exit;
  }   
@@ -71,7 +74,8 @@ try {
 
     echo json_encode(['message' => 'Files moved successfully.']);   
 } catch (Throwable $e) {                
-    echo json_encode(['message' => $e->getMessage()]);    
+    echo json_encode(['error' => $e->getMessage()]);   
+    exit; 
 }
 
 
