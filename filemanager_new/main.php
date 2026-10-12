@@ -417,15 +417,16 @@
 
       <tr id="<?php echo $filenames[$i]; ?>">
         <?php if ($type[$i] === 'Directory'): ?>
-
-          <td class="item" id="<?php echo $filenames[$i]; ?>" draggable="true" data_path="<?php echo htmlspecialchars($folderpath.'/'.$filenames[$i], ENT_QUOTES, 'UTF-8'); ?>">
-            
+          
+          <!-- <td class="item" id="<?php echo $filenames[$i]; ?>" draggable="true" data_path="<?php //echo htmlspecialchars($folderpath.'/'.$filenames[$i], ENT_QUOTES, 'UTF-8'); ?>">
+             -->
+          <td class="item" id="<?php echo $filenames[$i]; ?>" draggable="true" data_path="<?php echo htmlspecialchars($filenames[$i], ENT_QUOTES, 'UTF-8'); ?>">
             <div name="checkbox_div" id="<?php echo $filenames[$i];?>"> 
-             <input type="checkbox" id="checkbox_<?php echo$filenames[$i];?>" name="select" value="<?php echo htmlspecialchars($folderpath.'/'.$filenames[$i], ENT_QUOTES, 'UTF-8'); ?>" class="selection-checkbox"></input> 
+             <input type="checkbox" id="checkbox_<?php echo$filenames[$i];?>" name="select" value="<?php echo htmlspecialchars($filenames[$i], ENT_QUOTES, 'UTF-8'); ?>" class="selection-checkbox"></input> 
             </div>
 
             <img src="images/folder_icon2.png" alt="Folder Icon" class="file-icon">
-            <section class="droparea" id="droparea_<?php echo $i; ?>" droppable="true" folderpath="<?php echo htmlspecialchars($folderpath.'/'.$filenames[$i].'/', ENT_QUOTES, 'UTF-8'); ?>">
+            <section class="droparea" id="droparea_<?php echo $i; ?>" droppable="true" folderpath="<?php echo htmlspecialchars($filenames[$i].'/', ENT_QUOTES, 'UTF-8'); ?>">
               <form method="post" action="requestpath.php">
                 <input type="hidden" name="newpath" value="<?php echo htmlspecialchars($_SESSION['newpath'].'/'.$filenames[$i].'/', ENT_QUOTES, 'UTF-8'); ?>">
                 <button class="directory-name-button" type="submit"><?php echo htmlspecialchars($filenames[$i], ENT_QUOTES, 'UTF-8'); ?></button>
@@ -462,9 +463,9 @@
             <?php $imageData = base64_encode(file_get_contents($_GET['newpath'].'/'.$filenames[$i]));
                   $previewscr = 'data: '.mime_content_type($_GET['newpath'].'/'.$filenames[$i]).';base64,'.$imageData;?>
 
-          <td class="item" draggable="true" data_path="<?php echo htmlspecialchars($folderpath.'/'.$filenames[$i], ENT_QUOTES, 'UTF-8'); ?>">
+          <td class="item" draggable="true" data_path="<?php echo htmlspecialchars($filenames[$i], ENT_QUOTES, 'UTF-8'); ?>">
               <div name="checkbox_div" id="<?php echo $filenames[$i];?>"> 
-             <input type="checkbox" id="checkbox_<?php echo$filenames[$i];?>" name="select" value="<?php echo htmlspecialchars($folderpath.'/'.$filenames[$i], ENT_QUOTES, 'UTF-8'); ?>" class="selection-checkbox"></input> 
+             <input type="checkbox" id="checkbox_<?php echo$filenames[$i];?>" name="select" value="<?php echo htmlspecialchars($filenames[$i], ENT_QUOTES, 'UTF-8'); ?>" class="selection-checkbox"></input> 
             </div>
               <img class="img file-icon" src="images/image.png" alt="Image Icon">
               <form method="POST" action="open.php">
@@ -502,9 +503,9 @@
             </td>
             
           <?php elseif(strtolower(pathinfo($filenames[$i], PATHINFO_EXTENSION)) === 'mov' || strtolower(pathinfo($filenames[$i], PATHINFO_EXTENSION)) === 'mp4'): ?>      
-           <td class="item" draggable="true" data_path="<?php echo htmlspecialchars($folderpath.'/'.$filenames[$i], ENT_QUOTES, 'UTF-8'); ?>">
+           <td class="item" draggable="true" data_path="<?php echo htmlspecialchars($filenames[$i], ENT_QUOTES, 'UTF-8'); ?>">
             <div name="checkbox_div" id="<?php echo $filenames[$i];?>"> 
-             <input type="checkbox" id="checkbox_<?php echo$filenames[$i];?>" name="select" value="<?php echo htmlspecialchars($folderpath.$filenames[$i], ENT_QUOTES, 'UTF-8'); ?>" class="selection-checkbox"></input> 
+             <input type="checkbox" id="checkbox_<?php echo$filenames[$i];?>" name="select" value="<?php echo htmlspecialchars($filenames[$i], ENT_QUOTES, 'UTF-8'); ?>" class="selection-checkbox"></input> 
             </div>
               <img class="img file-icon" src="images/mov_icon.png" alt="File Icon">
               <form method="POST" action="open.php">
@@ -542,9 +543,9 @@
               </td> 
 
           <?php elseif (substr($filenames[$i], -4) == '.pdf'): ?>      
-            <td class="item" draggable="true" data_path="<?php echo htmlspecialchars($folderpath.'/'.$filenames[$i], ENT_QUOTES, 'UTF-8'); ?>">
+            <td class="item" draggable="true" data_path="<?php echo htmlspecialchars($filenames[$i], ENT_QUOTES, 'UTF-8'); ?>">
               <div name="checkbox_div" id="<?php echo $filenames[$i];?>"> 
-             <input type="checkbox" id="checkbox_<?php echo$filenames[$i];?>" name="select" value="<?php echo htmlspecialchars($folderpath.'/'.$filenames[$i], ENT_QUOTES, 'UTF-8'); ?>" class="selection-checkbox"></input> 
+             <input type="checkbox" id="checkbox_<?php echo$filenames[$i];?>" name="select" value="<?php echo htmlspecialchars($filenames[$i], ENT_QUOTES, 'UTF-8'); ?>" class="selection-checkbox"></input> 
             </div>
               <img class="img file-icon" src="images/file_icon2.png" alt="File Icon">
               <form method="POST" action="open.php">
@@ -581,9 +582,9 @@
             </td> 
 
           <?php else: ?>
-            <td class="item" draggable="true" data_path="<?php echo htmlspecialchars($folderpath.'/'.$filenames[$i], ENT_QUOTES, 'UTF-8'); ?>">
+            <td class="item" draggable="true" data_path="<?php echo htmlspecialchars($filenames[$i], ENT_QUOTES, 'UTF-8'); ?>">
               <div name="checkbox_div" id="<?php echo $filenames[$i];?>"> 
-             <input type="checkbox" id="checkbox_<?php echo$filenames[$i];?>" name="select" value="<?php echo htmlspecialchars($folderpath.'/'.$filenames[$i], ENT_QUOTES, 'UTF-8'); ?>" class="selection-checkbox"></input> 
+             <input type="checkbox" id="checkbox_<?php echo$filenames[$i];?>" name="select" value="<?php echo htmlspecialchars($filenames[$i], ENT_QUOTES, 'UTF-8'); ?>" class="selection-checkbox"></input> 
             </div>
               <img class="img file-icon" src="images/unbekannte-mail.png" alt="File Icon">
               <form method="POST" action="open.php">
@@ -1041,26 +1042,12 @@
         }
     }
 
-    function takeaction() {
+    function takeaction() 
+    {
 
-      //   if(data.length==0)
-      //   {
-      //   alert("Please select some date");
-
-      //   }    
-      // console.log("action");
-      
-      //  console.log("action_arry_lenght:      "+data.length);  
-
-      // for( var i = 0; i < data.length; i++)
-      //   {
-      //   console.log("action :"+data[i]);
-      //   }  
-
-        const movedataView = document.getElementById('movedata_view');
-         document.getElementById('movedata_item').value = data;
+     const movedataView = document.getElementById('movedata_view');
+     document.getElementById('movedata_item').value = data;
         movedataView.style.display = 'block';
-
 
     }   
     
@@ -1093,25 +1080,31 @@
         
 
       if(data.length >= 2 )
-        { 
+      { 
       console.log("more files are selected");
+      moveData.push(...data);
 
-        moveData.push(...data);
-       for( var i = 0; i < moveData.length; i++)
-        {
-        console.log("moveData :"+moveData[i]);
-        }  
-      } else if(data_path)
+      for( var i = 0; i < moveData.length; i++)
       {
+       console.log("moveData :"+moveData[i]);
+      }
+
+      } else if(data_path)
+      
+      {
+        
         console.log(" a single file is selected");
         moveData.push(data_path);
        for( var i = 0; i < moveData.length; i++)
         {
         console.log("moveData :"+moveData[i]);
         }
+
       } 
      
        console.log('destination ' + path);
+
+
 
       fetch('move_file.php', {
         method: 'POST',
@@ -1124,18 +1117,26 @@
         })
       })
          .then(response => response.json())
-         .then(dataOut => {
-          console.log(dataOut.message);
-          //alert('Feedback:  '+dataOut.message);
+         .then(data => {
+          if(data.error)
+          {
+          console.log('Error: '+ data.error);
+          alert('Error:  '+data.error);
+          return;
+          }     
+          console.log(data.message);
            window.location.reload();
         })
         .catch(error => {
           console.log(error);
           alert('Error:' + error);
-          window.location.reload();
+      
         });
 
-      }
+   }
+
+
+
 
    function  func_deletefiles() {
     console.log("deletefiles");
@@ -1170,6 +1171,7 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', updateDropAreas);
+
   function updateDropAreas() {
       const dropAreas = document.querySelectorAll('.droparea');
       dropAreas.forEach(dropArea => {

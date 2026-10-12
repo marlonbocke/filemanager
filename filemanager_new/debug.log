@@ -1,0 +1,210 @@
+PathDestination : /mnt/hdd_4T/filemanager_data/testdir///stuff/personal
+------------------------------------ 
+absoluteDpath : /mnt/hdd_4T/filemanager_data/testdir///stuff/personal
+absoluteCpath : /mnt/hdd_4T/filemanager_data/testdir///stuff
+------------------------------------ 
+----------------check-------------------- 
+absoluteDpath : /mnt/hdd_4T/filemanager_data/testdir///stuff/personal
+absoluteCpath : /mnt/hdd_4T/filemanager_data/testdir///stuff
+------------------------------------ 
+----------------movefile-------------------- 
+relativDpath : personal
+----------------check-------------------- 
+absoluteDpath : /mnt/hdd_4T/filemanager_data/testdir///stuff/personal
+absoluteCpath : /mnt/hdd_4T/filemanager_data/testdir///stuff
+------------------------------------ 
+----------------movefile-------------------- 
+relativDpath : personal
+/mnt/hdd_4T/filemanager_data/testdir///stuff : /mnt/hdd_4T/filemanager_data/testdir///stuff
+----------------check-------------------- 
+absoluteDpath : /mnt/hdd_4T/filemanager_data/testdir///stuff/personal
+absoluteCpath : /mnt/hdd_4T/filemanager_data/testdir///stuff
+------------------------------------ 
+----------------movefile-------------------- 
+relativDpath : personal
+absoluteCpath : /mnt/hdd_4T/filemanager_data/testdir///stuff
+----------------check-------------------- 
+absoluteDpath : /mnt/hdd_4T/filemanager_data/testdir///stuff/personal
+absoluteCpath : /mnt/hdd_4T/filemanager_data/testdir///stuff
+------------------------------------ 
+----------------movefile-------------------- 
+relativDpath : personal
+absoluteCpath : /mnt/hdd_4T/filemanager_data
+----------------check-------------------- 
+absoluteDpath : /mnt/hdd_4T/filemanager_data/personal
+absoluteCpath : /mnt/hdd_4T/filemanager_data
+------------------------------------ 
+----------------movefile-------------------- 
+relativDpath : /mnt/hdd_4T/filemanager_data/personal
+absoluteCpath : /mnt/hdd_4T/filemanager_data
+----------------check-------------------- 
+absoluteDpath : /mnt/hdd_4T/filemanager_data//mnt/hdd_4T/filemanager_data/personal
+absoluteCpath : /mnt/hdd_4T/filemanager_data
+------------------------------------ 
+----------------movefile-------------------- 
+relativDpath : /mnt/hdd_4T/filemanager_data
+absoluteCpath : /mnt/hdd_4T/filemanager_data/personal
+----------------check-------------------- 
+absoluteDpath : /mnt/hdd_4T/filemanager_data/personal//mnt/hdd_4T/filemanager_data
+absoluteCpath : /mnt/hdd_4T/filemanager_data/personal
+------------------------------------ 
+----------------movefile-------------------- 
+----------------check-------------------- 
+absoluteDpath : /mnt/hdd_4T/filemanager_data
+absoluteCpath : /mnt/hdd_4T/filemanager_data/personal
+------------------------------------ 
+----------------movefile-------------------- 
+----------------check-------------------- 
+absoluteDpath : /mnt/hdd_4T/filemanager_data
+absoluteCpath : /mnt/hdd_4T/filemanager_data/personal
+------------------------------------ 
+----------------movefile-------------------- 
+----------------check-------------------- 
+absoluteDpath : /mnt/hdd_4T/filemanager_data/personal/BKHX/
+absoluteCpath : /mnt/hdd_4T/filemanager_data/personal
+------------------------------------ 
+----------------movefile-------------------- 
+----------------check-------------------- 
+absoluteDpath : /mnt/hdd_4T/filemanager_data/personal/BKHX/
+absoluteCpath : /mnt/hdd_4T/filemanager_data/personal
+------------------------------------ 
+----------------movefile-------------------- 
+----------------check-------------------- 
+absoluteDpath : /mnt/hdd_4T/filemanager_data/personal/BKHX
+absoluteCpath : /mnt/hdd_4T/filemanager_data/personal
+------------------------------------ 
+----------------movefile-------------------- 
+----------------check-------------------- 
+absoluteDpath : /mnt/hdd_4T/filemanager_data/personal/BKHX
+absoluteCpath : /mnt/hdd_4T/filemanager_data/personal
+------------------------------------ 
+----------------movefile-------------------- 
+----------------check-------------------- 
+absoluteDpath : /mnt/hdd_4T/filemanager_data/personal/BKHX/
+absoluteCpath : /mnt/hdd_4T/filemanager_data/personal
+--------------check pathDestination---------------------- 
+pathDestionation : /mnt/hdd_4T/filemanager_data/personal/BKHX/
+------------------------------------ 
+----------------movefile-------------------- 
+----------------check-------------------- 
+absoluteDpath : /mnt/hdd_4T/filemanager_data/personal/BKHX/
+absoluteCpath : /mnt/hdd_4T/filemanager_data/personal
+--------------check pathDestination---------------------- 
+pathDestionation : /mnt/hdd_4T/filemanager_data/personal/BKHX/
+checkedDestinationPath : /mnt/hdd_4T/filemanager_data/personal/BKHX/
+------------------------------------ 
+----------------movefile-------------------- 
+----------------check-------------------- 
+absoluteDpath : /mnt/hdd_4T/filemanager_data
+absoluteCpath : /mnt/hdd_4T/filemanager_data/personal
+--------------check pathDestination---------------------- 
+pathDestionation : /mnt/hdd_4T/filemanager_data/
+checkedDestinationPath : /mnt/hdd_4T/filemanager_data/
+------------------------------------ 
+----------------movefile-------------------- 
+----------------check-------------------- 
+absoluteDpath : /mnt/hdd_4T/filemanager_data/personal/BKHX/
+absoluteCpath : /mnt/hdd_4T/filemanager_data/personal
+--------------check pathDestination---------------------- 
+pathDestionation : /mnt/hdd_4T/filemanager_data/personal/BKHX/
+checkedDestinationPath : /mnt/hdd_4T/filemanager_data/personal/BKHX/
+------------------------------------ 
+----------------movefile-------------------- 
+----------------check-------------------- 
+absoluteDpath : /mnt/hdd_4T/filemanager_data/personal/BKHX/
+absoluteCpath : /mnt/hdd_4T/filemanager_data/personal
+--------------check pathDestination---------------------- 
+pathDestionation : /mnt/hdd_4T/filemanager_data/personal/BKHX/
+checkedDestinationPath : /mnt/hdd_4T/filemanager_data/personal/BKHX/
+------------------------------------ 
+----------------movefile-------------------- 
+----------------check-------------------- 
+absoluteDpath : /mnt/hdd_4T/filemanager_data/personal
+absoluteCpath : /mnt/hdd_4T/filemanager_data
+--------------check pathDestination---------------------- 
+pathDestionation : /mnt/hdd_4T/filemanager_data/personal/
+checkedDestinationPath : /mnt/hdd_4T/filemanager_data/personal/
+------------------------------------ 
+----------------movefile-------------------- 
+----------------check-------------------- 
+absoluteDpath : /mnt/hdd_4T/filemanager_data/personal/
+absoluteCpath : /mnt/hdd_4T/filemanager_data
+--------------check pathDestination---------------------- 
+pathDestionation : /mnt/hdd_4T/filemanager_data/personal/
+checkedDestinationPath : /mnt/hdd_4T/filemanager_data/personal/
+------------------------------------ 
+----------------movefile-------------------- 
+----------------check-------------------- 
+----end----------- 
+----------------movefile-------------------- 
+----------------check-------------------- 
+----end----------- 
+----------------movefile-------------------- 
+----------------check-------------------- 
+----end----------- 
+----------------movefile-------------------- 
+----------------check-------------------- 
+----end----------- 
+----------------movefile-------------------- 
+----------------check-------------------- 
+----end----------- 
+----------------movefile-------------------- 
+----------------check-------------------- 
+----end----------- 
+----------------movefile-------------------- 
+----------------check-------------------- 
+----end----------- 
+----------------movefile-------------------- 
+----------------check-------------------- 
+----end----------- 
+----------------movefile-------------------- 
+----------------check-------------------- 
+----end----------- 
+----------------movefile-------------------- 
+----------------check-------------------- 
+----end----------- 
+----------------movefile-------------------- 
+----------------check-------------------- 
+----end----------- 
+----------------movefile-------------------- 
+----------------check-------------------- 
+----end----------- 
+----------------movefile-------------------- 
+----------------check-------------------- 
+----end----------- 
+----------------movefile-------------------- 
+----------------check-------------------- 
+----end----------- 
+----------------movefile-------------------- 
+----------------check-------------------- 
+----end----------- 
+----------------movefile-------------------- 
+----------------check-------------------- 
+----end----------- 
+----------------movefile-------------------- 
+----------------check-------------------- 
+----end----------- 
+----------------movefile-------------------- 
+----------------check-------------------- 
+----end----------- 
+----------------movefile-------------------- 
+----------------check-------------------- 
+----end----------- 
+----------------movefile-------------------- 
+----------------check-------------------- 
+----end----------- 
+----------------movefile-------------------- 
+----------------check-------------------- 
+----end----------- 
+----------------movefile-------------------- 
+----------------check-------------------- 
+----end----------- 
+----------------movefile-------------------- 
+----------------check-------------------- 
+----end----------- 
+----------------movefile-------------------- 
+----------------check-------------------- 
+----end----------- 
+----------------movefile-------------------- 
+----------------check-------------------- 
+----end----------- 

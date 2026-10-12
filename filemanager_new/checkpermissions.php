@@ -45,43 +45,46 @@ if (!isset($_SESSION["user_path"])) {
     
 }  
 
-function checkP_Move($absoluteCpath, $data, $absoluteDpath)
+function checkP_Move($absoluteCpath,  $dataArray, $absoluteDpath)
 {
+   error_log("----------------check-------------------- \n", 3, '/var/www/html/filemanager_new/debug.log');
     if (!isset($_SESSION["user_path"])) {
+        error_log("Seession is not set \n", 3, '/var/www/html/filemanager_new/debug.log');
         return false;
     }
-
     $userPath = $_SESSION['user_path'];
     $basePrefix = rtrim($userPath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
     $checkedCurrentPaths = [];
- 
-    //check pathDestination
+
+    //check pathDestination 
     $pathDestination = rtrim($absoluteDpath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+     
+    if (!str_starts_with($pathDestination, $basePrefix)) {
+        error_log("pathDestination is not part of the base directory \n", 3, '/var/www/html/filemanager_new/debug.log');
+        return false;
+    }
+        
+    if (!file_exists($pathDestination)) {
+         error_log("pathDestination is not existing \n", 3, '/var/www/html/filemanager_new/debug.log');
+        return false;
+    }
 
-        if (!str_starts_with($pathDestination, $basePrefix)) {
-            return false;
-        }
-
-        if (!file_exists($pathDestination)) {
-            return false;
-        }
-
-        if (!is_dir($pathDestination )) 
-        {
-            return false;    
-        }
+    if (!is_dir($pathDestination)) {
+         error_log("pathDestination is not a directory \n", 3, '/var/www/html/filemanager_new/debug.log');
+        return false;    
+    }
 
     $checkedDestinationPath = $pathDestination; 
-    
+
     //check currentpath
     $currentpath = rtrim($absoluteCpath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 
-         if (!str_starts_with($currentpath, $basePrefix)) {
-            return false;
-        }
-
-    
-    foreach ($data as $i => $item) 
+    if (!str_starts_with($currentpath, $basePrefix)) {
+        error_log("currentpath is not part of the base directory \n", 3, '/var/www/html/filemanager_new/debug.log');
+        return false;
+    }
+    //provide the absolute paths for each data item
+    foreach ($dataArray as $i => $item) 
     {   
        $checkedCurrentPaths[$i] = $currentpath . $item;
         // if (!file_exists($checkedCurrentPaths[$i]) && !is_dir($checkedCurrentPaths[$i])) {       //this is not working 
@@ -89,7 +92,7 @@ function checkP_Move($absoluteCpath, $data, $absoluteDpath)
         // }
 
     }
-
+    error_log("----end----------- \n", 3, '/var/www/html/filemanager_new/debug.log');
     return [$checkedDestinationPath, $checkedCurrentPaths];
 }
 
@@ -111,3 +114,7 @@ function checkP_Move($absoluteCpath, $data, $absoluteDpath)
 
 // function: check_Move
 // move:     $absoluteCpath, $data, $absoluteDpath, $ID
+
+
+// for debugging: tail -f /var/log/apache2/error.log | grep --line-buffered -oE '^[A-Za-z]+ [A-Za-z]+ [0-9 :]+ [0-9]+|PathDestination:.*|BasePrefix:.*|Starts with.*|File exists\?.*|Is dir\?.*|---+'
+//or you can just use here the logs file. 
