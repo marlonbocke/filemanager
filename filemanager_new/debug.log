@@ -1,1 +1,77 @@
+<<<<<<< HEAD
 
+=======
+ip address: 127.0.0.1 
+port: 3306 
+db_username: admin 
+db_password: M10%bock 
+databasename: filemanager 
+[13-Oct-2026 08:37:28 UTC] PHP Warning:  error_log(/debug.log): Failed to open stream: Permission denied in /var/www/html/filemanager_new/login.php on line 45
+[13-Oct-2026 08:37:28 UTC] PHP Warning:  error_log(/debug.log): Failed to open stream: Permission denied in /var/www/html/filemanager_new/login.php on line 46
+[13-Oct-2026 08:37:28 UTC] PHP Warning:  error_log(/debug.log): Failed to open stream: Permission denied in /var/www/html/filemanager_new/login.php on line 47
+[13-Oct-2026 08:37:28 UTC] PHP Warning:  error_log(/debug.log): Failed to open stream: Permission denied in /var/www/html/filemanager_new/login.php on line 48
+[13-Oct-2026 08:37:28 UTC] PHP Warning:  error_log(/debug.log): Failed to open stream: Permission denied in /var/www/html/filemanager_new/login.php on line 49
+ip address: 127.0.0.1 
+port: 3306 
+db_username: admin 
+db_password: M10%bock 
+databasename: filemanager 
+-----------------------login----------------1791880717
+ip address: 127.0.0.1 
+port: 3306 
+db_username: admin 
+db_password: M10%bock 
+databasename: filemanager 
+-----------------------login----------------1791880733
+ip address: 127.0.0.1 
+port: 3306 
+db_username: admin 
+db_password: M10%bock 
+databasename: filemanager 
+-----------------------login----------------1791880768
+ip address: 127.0.0.1 
+port: 3306 
+db_username: admin 
+db_password: M10%bock 
+databasename: filemanager 
+----------------movefile-------------------- 
+----------------check-------------------- 
+----end----------- 
+-----------------------login----------------1791881879
+-----------------------login----------------1791882840
+-----------------------login----------------1791882980
+No config data file was found.  
+No config data found  
+-----------------------login----------------1791883378
+-----------------------login----------------1791884384
+No user or password  
+-----------------------login----------------1791884384
+No user or password  
+-----------------------login----------------1791884446
+No config data found  
+-----------------------login----------------1791885033
+No config data found  
+-----------------------login----------------1791885296
+-----------------------login----------------1791885359
+-----------------------login----------------1791885463
+-----------------------login----------------1791885493
+-----------------------login----------------1791885663
+-----------------------login----------------1791885791
+-----------------------login----------------1791885840
+No config data file was found.  
+No config data found  
+-----------------------login----------------1791885849
+-----------------------login----------------1791894032
+-----------------------login----------------1791909732
+-----------------------login----------------1791909883
+newpath /mnt/hdd_4T/filemanager_data
+Access denied. 
+Access denied. 
+Access denied. 
+-----------------------login----------------1791910276
+userpath: /mnt/hdd_4T/filemanager_data
+userpath: /mnt/hdd_4T/filemanager_data
+userpath: /mnt/hdd_4T/filemanager_data
+Access denied. 
+Access denied. 
+>>>>>>> c5abb75 (config setup improved)

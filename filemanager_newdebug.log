@@ -1,0 +1,4 @@
+[13-Oct-2026 09:16:20 UTC] PHP Warning:  Undefined variable $jsondata in /var/www/html/filemanager_new/login.php on line 28
+[13-Oct-2026 09:16:20 UTC] PHP Deprecated:  json_decode(): Passing null to parameter #1 ($json) of type string is deprecated in /var/www/html/filemanager_new/login.php on line 28
+[13-Oct-2026 10:04:00 UTC] PHP Warning:  Undefined variable $jsondata in /var/www/html/filemanager_new/login.php on line 28
+[13-Oct-2026 10:04:00 UTC] PHP Deprecated:  json_decode(): Passing null to parameter #1 ($json) of type string is deprecated in /var/www/html/filemanager_new/login.php on line 28

@@ -17,10 +17,10 @@ if (empty($user) || empty($password)) {
 
 
 
-$file ="config.json";
+$file ="config/config.json";
 if(!file_exists($file)) {
     error_log("No config data file was found.  \n", 3, 'debug.log'); 
-    echo "<script>alert('No config data file found.'); window.location.href = 'config.html';</script>";
+    echo "<script>alert('No config data file found.'); window.location.href = 'config/config.html';</script>";
 } else 
  
 
@@ -29,11 +29,11 @@ $config= json_decode($jsondata, true);
 
     if (!is_array($config)) {
         error_log("No config data found  \n", 3, 'debug.log');     
-        echo "<script>alert('No config data found. Please try again'); window.location.href = 'config.html';</script>";
+        echo "<script>alert('No config data found. Please try again'); window.location.href = '/config/config.html';</script>";
         exit;
     }
     $config_data=$config[0];
-    var_dump($config); 
+    //var_dump($config); 
 
         
     $ip = $config_data["ip_address"];

@@ -2,7 +2,7 @@
     session_start();
 
     if (isset($_SESSION["user_path"]) && !isset($_SESSION["newpath"]))  {
-
+      error_log('userpath: ' . $_SESSION['user_path'] . "\n", 3, 'debug.log');
       $baseFileDir = $_SESSION["user_path"];    //store userpath directory in baseFileDir 
       $_SESSION["baseFileDir"] = $baseFileDir;
 
@@ -14,6 +14,7 @@
 
     } else if (isset($_SESSION['newpath']))
     { 
+       error_log('newpath ' . $_SESSION['newpath'] . "\n", 3, 'debug.log');  
       $baseFileDir = $_SESSION["user_path"];
       $allowedBasePath = $baseFileDir;
       $allowedBasePathReal = realpath($allowedBasePath);   
@@ -21,7 +22,9 @@
 
     }
     else if(!isset($_SESSION["user_path"]) && !isset($_SESSION["newpath"])) {
-      header('location: index.html');
+      error_log("Access denied. \n", 3, 'debug.log');
+      header('location: index.php');
+      exit;
     }
 
 
@@ -51,7 +54,7 @@
 
     } else 
     {
-     header('location: index.html');
+     header('location: index.php');
     } 
     
 
