@@ -1,18 +1,64 @@
 <?php
 session_start();
+error_log("-----------------------login----------------" . time() . "\n", 3, 'debug.log');
+ini_set('log_errors', '1');
+ini_set('error_log', __DIR__ . 'debug.log');
+error_reporting(E_ALL);
 
 
 $user = trim($_POST["nutzer"] ?? "");
 $password = $_POST["passwort"] ?? "";
 
 if (empty($user) || empty($password)) {
-
-
+    error_log("No user or password  \n", 3, 'debug.log'); 
     header("Location: index.html");
     exit;
 }  
 
-$connection = mysqli_connect("127.0.0.1", "admin", "M10%bock", "filemanager", 3306);
+
+
+$file ="config.json";
+if(!file_exists($file)) {
+    error_log("No config data file was found.  \n", 3, 'debug.log'); 
+    echo "<script>alert('No config data file found.'); window.location.href = 'config.html';</script>";
+} else 
+ 
+
+$jsondata = file_get_contents($file);
+$config= json_decode($jsondata, true); 
+
+    if (!is_array($config)) {
+        error_log("No config data found  \n", 3, 'debug.log');     
+        echo "<script>alert('No config data found. Please try again'); window.location.href = 'config.html';</script>";
+        exit;
+    }
+    $config_data=$config[0];
+    var_dump($config); 
+
+        
+    $ip = $config_data["ip_address"];
+    $port = $config_data['port'];
+    $db_username = $config_data['username'];
+    $db_password = $config_data['password'];
+    $databasename = $config_data['databasename'];
+    
+    
+
+    if(empty($ip) || empty($port)|| empty($db_username)|| empty($db_password)|| empty($databasename) )
+    {
+        // error_log("ip address: $ip \n", 3, 'debug.log');
+        // error_log("port: $port \n", 3, 'debug.log');
+        // error_log("db_username: $db_username \n", 3, 'debug.log');
+        // error_log("db_password: $db_password \n", 3, 'debug.log');
+        // error_log("databasename: $databasename \n", 3, 'debug.log');
+         error_log(" Could not read all json data.  \n", 3, 'debug.log'); 
+         echo "<script>alert('Something went wrong. Please try again'); window.location.href = 'config.html';</script>";
+        exit;
+    }   
+    
+
+
+$connection = mysqli_connect($ip, $db_username, $db_password, $databasename, $port);
 
 if (!$connection) {
    // die("Datenbankverbindung fehlgeschlagen");
@@ -37,27 +83,28 @@ if ($result->num_rows > 0)
     {
          session_regenerate_id(true); 
         $_SESSION["username"] = $row["username"];
-        
         $_SESSION["loginID"] = $row["loginID"];
         $userpath = $row["userpath"];
         $_SESSION['user_path'] = $userpath;
-    
-
         header("Location: /filemanager_new/main.php");
         exit;
 
     } else {
+        error_log("Wrong password: $password. Correct password: " . $row['credentials'] . "\n", 3, 'debug.log');
         echo "<script>alert('Wrong password. Please try again.'); window.location.href = 'index.html';</script>";
         exit; 
       }
       
 } else 
 {
-    echo "<script>alert('User not found. Please try again.'); window.location.href = 'index.html';</script>";
+    error_log("User was not found in the Database  \n", 3, 'debug.log'); 
+    echo "<script>alert('User was not found. Please try again.'); window.location.href = 'index.html';</script>";
     exit; 
 }  
 
 
 $stmt->close();
 $connection->close();
+
+
 ?>
