@@ -16,7 +16,7 @@ $user = $_POST['user'];
 $password = $_POST['password'];
 $db_name = $_POST['db_name'];
 
-$file ='config.json';
+$file ='config/config.json';
 $jsondata = file_get_contents($file);
 $config = json_decode($jsondata, true); 
 
@@ -42,7 +42,9 @@ $config[0] =
 
 $saved=file_put_contents($file, json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
-if($saved) {
-    echo "<script>alert('Config saved'); window.location.href = 'index.html';</script>";
-} else   
-    echo "<script>alert('Config haven't been saved. Please try again'); window.location.href = 'index.html';</script>";
+if ($saved) {
+    echo "<script>alert('Config saved'); window.location.href = '/filemanager_new/index.php';</script>";
+} else {
+    echo "<script>alert('Config haven't been saved. Please try again')</script>";
+    return;
+}
