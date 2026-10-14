@@ -4,41 +4,45 @@ session_start();
 
 function checkP_DownloadOpenDelete($absoluteCpath, $data) 
 {      
-if (!isset($_SESSION["user_path"])) {
+    error_log("----------------checkAccess-------------------- \n", 3, 'debug.log');   
+    if (!isset($_SESSION["user_path"])) {
+        error_log("Seession is not set \n", 3, 'debug.log');
         return false;
     } 
         $userPath = $_SESSION['user_path'];
-        $basePrefix = rtrim($userPath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;      //provided with ChatGPT 
-        $pathPrefix = rtrim($absoluteCpath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;  
+        $basePath = rtrim($userPath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;      //provided with ChatGPT 
+        $currentpath = rtrim($absoluteCpath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;  
 
-        if(!str_starts_with($pathPrefix, $basePrefix)) {            //check if the path is within the user's allowed path
+        if(!str_starts_with($currentpath, $basePath)) {   //check if the path is within the user's allowed path
+            error_log("pathDestination is not part of the base directory \n", 3, 'debug.log');
             return false;
         }
 
         if(is_array($data))
         {
-       
           $realFileArray = [];
          
           foreach($data as $i => $item)
            {
             $realFileArray[$i] = $pathPrefix . DIRECTORY_SEPARATOR . $item;
 
-            if (!file_exists($realFileArray[$i])) {                  //check if the file or directory exists
+            if (!file_exists($realFileArray[$i])) {   //check if the file or directory exists
+             error_log("file or dir is not existsing \n", 3, 'debug.log');
             return false;
             }
 
            } 
+           error_log("----------------end-------------------- \n", 3, 'debug.log');
            return $realFileArray;  
       
         } else 
         {
-
-        $realFile = $absoluteCpath . '/' . $data;
+        $realFile = $absoluteCpath . DIRECTORY_SEPARATOR . $data;
         if (!file_exists($realFile) ) {                  //check if the file or directory exists
+         error_log("file or dir is not existing \n", 3, 'debug.log');
         return false;
         }
-        
+        error_log("----------------end-------------------- \n", 3, 'debug.log');
         return $realFile;  //return the real file path if all checks pass 
         }
 
@@ -47,9 +51,9 @@ if (!isset($_SESSION["user_path"])) {
 
 function checkP_Move($absoluteCpath,  $dataArray, $absoluteDpath)
 {
-   error_log("----------------check-------------------- \n", 3, '/var/www/html/filemanager_new/debug.log');
+   error_log("----------------checkAccess-------------------- \n", 3, 'debug.log');
     if (!isset($_SESSION["user_path"])) {
-        error_log("Seession is not set \n", 3, '/var/www/html/filemanager_new/debug.log');
+        error_log("Seession is not set \n", 3, 'debug.log');
         return false;
     }
     $userPath = $_SESSION['user_path'];
@@ -57,43 +61,87 @@ function checkP_Move($absoluteCpath,  $dataArray, $absoluteDpath)
     $checkedCurrentPaths = [];
 
     //check pathDestination 
-    $pathDestination = rtrim($absoluteDpath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-     
+    $pathDestination = rtrim($absoluteDpath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;    
     if (!str_starts_with($pathDestination, $basePrefix)) {
-        error_log("pathDestination is not part of the base directory \n", 3, '/var/www/html/filemanager_new/debug.log');
+        error_log("pathDestination is not part of the base directory \n", 3, 'debug.log');
         return false;
     }
         
     if (!file_exists($pathDestination)) {
-         error_log("pathDestination is not existing \n", 3, '/var/www/html/filemanager_new/debug.log');
+         error_log("pathDestination is not existing \n", 3, 'debug.log');
         return false;
     }
 
     if (!is_dir($pathDestination)) {
-         error_log("pathDestination is not a directory \n", 3, '/var/www/html/filemanager_new/debug.log');
+         error_log("pathDestination is not a directory \n", 3, 'debug.log');
         return false;    
     }
-
-    $checkedDestinationPath = $pathDestination; 
-
+ 
     //check currentpath
     $currentpath = rtrim($absoluteCpath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 
     if (!str_starts_with($currentpath, $basePrefix)) {
-        error_log("currentpath is not part of the base directory \n", 3, '/var/www/html/filemanager_new/debug.log');
+        error_log("currentpath is not part of the base directory \n", 3, 'debug.log');
         return false;
     }
     //provide the absolute paths for each data item
     foreach ($dataArray as $i => $item) 
     {   
-       $checkedCurrentPaths[$i] = $currentpath . $item;
-        // if (!file_exists($checkedCurrentPaths[$i]) && !is_dir($checkedCurrentPaths[$i])) {       //this is not working 
-        //     return false;
-        // }
-
+        if (file_exists($pathDestination . $item)) {   
+             error_log("filename already exists \n", 3, 'debug.log');
+            return false;
+        }
+        if (!file_exists($currentpath . $item)) {   
+              error_log("file or dir is not existing \n", 3, 'debug.log');
+            return false;
+        }
+        $checkedCurrentPaths[$i] = $currentpath . $item;
+       
     }
-    error_log("----end----------- \n", 3, '/var/www/html/filemanager_new/debug.log');
+
+    $checkedDestinationPath = $pathDestination;
+    error_log("----------------end-------------------- \n", 3, 'debug.log');
     return [$checkedDestinationPath, $checkedCurrentPaths];
+}
+
+
+
+
+
+
+function checkP_rename($absoluteCpath, $requestnewname, $oldname)
+{
+    error_log("----------------checkAccess-------------------- \n", 3, 'debug.log');
+     
+    if (!isset($_SESSION["user_path"])) {
+        error_log("Session is not set \n", 3, 'debug.log');
+        return false;
+    } 
+    $userPath = $_SESSION['user_path'];
+    $basePath = rtrim($userPath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;      //provided with ChatGPT 
+    $currentpath = rtrim($absoluteCpath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;  
+
+    if(!str_starts_with($currentpath, $basePath)) {   
+            error_log("pathDestination is not part of the base directory \n", 3, 'debug.log');
+            return false;
+    }
+
+    $checkabsoluteOldname = $currentpath. DIRECTORY_SEPARATOR . $oldname;
+     
+    if (!file_exists($checkabsoluteOldname) ) {                  //check if the file or directory exists
+         error_log("file or dir is not existing. $checkabsoluteOldname \n", 3, 'debug.log');
+        return false;
+    }
+    $checkedOldname = $absoluteCpath . DIRECTORY_SEPARATOR . $oldname;
+
+    if (file_exists($absoluteCpath . DIRECTORY_SEPARATOR . $requestnewname) ) {                 
+         error_log("filename already exists \n", 3, 'debug.log');
+        return false;
+    }
+    $checkedNewname = $absoluteCpath . DIRECTORY_SEPARATOR . $requestnewname;
+ error_log("----------------end-------------------- \n", 3, 'debug.log');
+    return [$checkedNewname, $checkedOldname ];
+
 }
 
 

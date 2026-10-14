@@ -1,15 +1,16 @@
 <?php 
 session_start();    //is important to read the sessions data 
+$logFile = 'debug.log';
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo json_encode(['error' => 'Something went wrong. Please try again later.']);
     exit;
 }
 
-use SpomkyLabs\Pki\ASN1\Component\Length;
+//use SpomkyLabs\Pki\ASN1\Component\Length;
 $json = file_get_contents('php://input');
 $jsondata = json_decode($json, true);
 $deletefiles = $jsondata['files'];
-
 
 
 foreach($deletefiles as $i => $item){
@@ -26,7 +27,9 @@ require_once 'checkpermissions.php';
  $realFileArray = checkP_DownloadOpenDelete($absoluteCpath, $data);
 
  if(!isset($realFileArray) || $realFileArray ==false) {
-     echo json_encode(['error' => 'Forbidden: You do not have permission to access this file.']);
+   $logLines = file($logFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    $lastError = !empty($logLines) ? end($logLines) : 'umknown error';
+    echo json_encode(['error' => $lastError]);
      exit;
 }
 
@@ -80,6 +83,6 @@ function deleteDirectory( String $realFileArray)      //Function to delete a dir
   rmdir($realFileArray); // delete empty directory
   return true;
 
-  }
+}
 
 

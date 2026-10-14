@@ -1,5 +1,8 @@
 <?php
 session_start();
+$logFile = 'debug.log';
+$logLines = file($logFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+$lastError = !empty($logLines) ? end($logLines) : 'umknown error';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(403);
@@ -22,7 +25,7 @@ $realFile = checkP_DownloadOpenDelete($absoluteCpath, $data);
 
 if(!isset($realFile) || $realFile==false) {
     http_response_code(403);
-    exit('Forbidden: You do not have permission to access this file.');
+    exit('Forbidden' .$lastError);
 }
 
  if (is_dir($realFile)) 

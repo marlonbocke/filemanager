@@ -1,94 +1,489 @@
 <<<<<<< HEAD
-
-=======
-ip address: 127.0.0.1 
-port: 3306 
-db_username: admin 
-db_password: M10%bock 
-databasename: filemanager 
-[13-Oct-2026 08:37:28 UTC] PHP Warning:  error_log(/debug.log): Failed to open stream: Permission denied in /var/www/html/filemanager_new/login.php on line 45
-[13-Oct-2026 08:37:28 UTC] PHP Warning:  error_log(/debug.log): Failed to open stream: Permission denied in /var/www/html/filemanager_new/login.php on line 46
-[13-Oct-2026 08:37:28 UTC] PHP Warning:  error_log(/debug.log): Failed to open stream: Permission denied in /var/www/html/filemanager_new/login.php on line 47
-[13-Oct-2026 08:37:28 UTC] PHP Warning:  error_log(/debug.log): Failed to open stream: Permission denied in /var/www/html/filemanager_new/login.php on line 48
-[13-Oct-2026 08:37:28 UTC] PHP Warning:  error_log(/debug.log): Failed to open stream: Permission denied in /var/www/html/filemanager_new/login.php on line 49
-ip address: 127.0.0.1 
-port: 3306 
-db_username: admin 
-db_password: M10%bock 
-databasename: filemanager 
------------------------login----------------1791880717
-ip address: 127.0.0.1 
-port: 3306 
-db_username: admin 
-db_password: M10%bock 
-databasename: filemanager 
------------------------login----------------1791880733
-ip address: 127.0.0.1 
-port: 3306 
-db_username: admin 
-db_password: M10%bock 
-databasename: filemanager 
------------------------login----------------1791880768
-ip address: 127.0.0.1 
-port: 3306 
-db_username: admin 
-db_password: M10%bock 
-databasename: filemanager 
-----------------movefile-------------------- 
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data
+newpath /mnt/hdd_4T/filemanager_data/personal
 ----------------check-------------------- 
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data/personal/BKHX
+newpath /mnt/hdd_4T/filemanager_data/personal/BKHX/Final Certificate
+----------------checkAccess-------------------- 
 ----end----------- 
------------------------login----------------1791881879
------------------------login----------------1791882840
------------------------login----------------1791882980
-No config data file was found.  
-No config data found  
------------------------login----------------1791883378
------------------------login----------------1791884384
-No user or password  
------------------------login----------------1791884384
-No user or password  
------------------------login----------------1791884446
-No config data found  
------------------------login----------------1791885033
-No config data found  
------------------------login----------------1791885296
------------------------login----------------1791885359
------------------------login----------------1791885463
------------------------login----------------1791885493
------------------------login----------------1791885663
------------------------login----------------1791885791
------------------------login----------------1791885840
-No config data file was found.  
-No config data found  
------------------------login----------------1791885849
------------------------login----------------1791894032
------------------------login----------------1791909732
------------------------login----------------1791909883
+newpath /mnt/hdd_4T/filemanager_data/personal/BKHX/Final Certificate
+newpath /mnt/hdd_4T/filemanager_data/personal/BKHX
+newpath /mnt/hdd_4T/filemanager_data/personal
 newpath /mnt/hdd_4T/filemanager_data
+----------------checkAccess-------------------- 
+----end----------- 
+----------------checkAccess-------------------- 
+----------------end-------------------- 
+----------------checkAccess-------------------- 
+----------------end------------------------- 
+----------------movefile-------------------- 
+----------------checkAccess-------------------- 
+----end----------- 
+----------------checkAccess-------------------- 
+----------------checkAccess-------------------- 
+-----------------------login----------------1791960347
+-----------------------login----------------1791960357
+-----------------------login----------------1791960362
+-----------------------login----------------1791960369
+-----------------------login----------------1791960389
+-----------------------login----------------1791960401
+-----------------------login----------------1791960430
+newpath /testdir/stuff
+-----------------------login----------------1791960486
+newpath /testdir/stuff
+-----------------------login----------------1791960528
+newpath /testdir/stuff
+-----------------------login----------------1791960551
+newpath /testdir/stuff
+newpath /testdir/stuff
+newpath /testdir/stuff
+-----------------------login----------------1791960746
+newpath /testdir/stuff
+Something went wrong. 
+-----------------------login----------------1791960790
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+-----------------------login----------------1791960807
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
+newpath /testdir/stuff
+Something went wrong. 
 Access denied. 
-Access denied. 
-Access denied. 
------------------------login----------------1791910276
-userpath: /mnt/hdd_4T/filemanager_data
-userpath: /mnt/hdd_4T/filemanager_data
-userpath: /mnt/hdd_4T/filemanager_data
-Access denied. 
-Access denied. 
-<<<<<<< HEAD
->>>>>>> c5abb75 (config setup improved)
-=======
-Access denied. 
-Access denied. 
------------------------login----------------1791953367
-userpath: /mnt/hdd_4T/filemanager_data
+-----------------------login----------------1791960877
 userpath: /mnt/hdd_4T/filemanager_data
 newpath /mnt/hdd_4T/filemanager_data/personal//
+----------------movefile-------------------- 
+----------------checkAccess-------------------- 
+----end----------- 
+----------------movefile-------------------- 
+----------------checkAccess-------------------- 
+----end----------- 
 newpath /mnt/hdd_4T/filemanager_data/personal//
+newpath /mnt/hdd_4T/filemanager_data/personal///professionally
+----------------movefile-------------------- 
+----------------checkAccess-------------------- 
+----end----------- 
+newpath /mnt/hdd_4T/filemanager_data/personal///professionally
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data/personal
+----------------movefile-------------------- 
+----------------checkAccess-------------------- 
+filename already exists 
+----------------movefile-------------------- 
+----------------checkAccess-------------------- 
+filename already exists 
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data
+Something went wrong. 
+-----------------------login----------------1791966952
 newpath /mnt/hdd_4T/filemanager_data
 newpath /mnt/hdd_4T/filemanager_data/testdir
 newpath /mnt/hdd_4T/filemanager_data/testdir/stuff
-newpath /mnt/hdd_4T/filemanager_data/testdir/stuff/test
+newpath /testdir
+Something went wrong. 
+-----------------------login----------------1791966965
+newpath /testdir
+Something went wrong. 
+-----------------------login----------------1791966972
+newpath /testdir
+Something went wrong. 
+newpath /testdir
+Something went wrong. 
+-----------------------login----------------1791967002
+newpath /testdir
+Something went wrong. 
+-----------------------login----------------1791967037
+userpath: /mnt/hdd_4T/filemanager_data
+----------------movefile-------------------- 
+----------------checkAccess-------------------- 
+----end----------- 
+newpath /mnt/hdd_4T/filemanager_data/testdir//
+newpath /mnt/hdd_4T/filemanager_data/testdir///stuff
+newpath /mnt/hdd_4T/filemanager_data/testdir
+newpath /mnt/hdd_4T/filemanager_data/testdir/stuff
+----------------movefile-------------------- 
+----------------checkAccess-------------------- 
+----end----------- 
 newpath /mnt/hdd_4T/filemanager_data/testdir/stuff
 newpath /mnt/hdd_4T/filemanager_data/testdir
 newpath /mnt/hdd_4T/filemanager_data
->>>>>>> fb6ebff (config setup improved)
+newpath /mnt/hdd_4T/filemanager_data/personal
+----------------movefile-------------------- 
+----------------checkAccess-------------------- 
+filename already exists 
+----------------checkAccess-------------------- 
+----------------end------------------------- 
+newpath /mnt/hdd_4T/filemanager_data/personal
+----------------checkAccess-------------------- 
+----------------end------------------------- 
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data
+newpath /mnt/hdd_4T/filemanager_data/testdir
+newpath /mnt/hdd_4T/filemanager_data/testdir/test
+newpath /mnt/hdd_4T/filemanager_data/testdir
+newpath /mnt/hdd_4T/filemanager_data
+newpath /mnt/hdd_4T/filemanager_data/testdir
+newpath /mnt/hdd_4T/filemanager_data
+newpath /mnt/hdd_4T/filemanager_data/testdir
+newpath /mnt/hdd_4T/filemanager_data
+newpath /mnt/hdd_4T/filemanager_data/testdir
+newpath /mnt/hdd_4T/filemanager_data/testdir/test
+newpath /mnt/hdd_4T/filemanager_data/testdir
+newpath /mnt/hdd_4T/filemanager_data
+newpath /mnt/hdd_4T/filemanager_data/testdir
+newpath /mnt/hdd_4T/filemanager_data/testdir/stuff
+newpath /mnt/hdd_4T/filemanager_data/testdir
+newpath /mnt/hdd_4T/filemanager_data/testdir/test
+newpath /mnt/hdd_4T/filemanager_data/testdir
+newpath /mnt/hdd_4T/filemanager_data/testdir/test
+newpath /mnt/hdd_4T/filemanager_data/testdir
+newpath /mnt/hdd_4T/filemanager_data
+newpath /mnt/hdd_4T/filemanager_data
+newpath /mnt/hdd_4T/filemanager_data
+newpath /mnt/hdd_4T/filemanager_data/testdir
+Access denied. 
+-----------------------login----------------1791968138
+userpath: /mnt/hdd_4T/filemanager_data
+userpath: /mnt/hdd_4T/filemanager_data
+----------------checkAccess-------------------- 
+----------------end------------------------- 
+userpath: /mnt/hdd_4T/filemanager_data
+newpath /mnt/hdd_4T/filemanager_data/personal//
+newpath /mnt/hdd_4T/filemanager_data
+newpath /mnt/hdd_4T/filemanager_data
+newpath /mnt/hdd_4T/filemanager_data/testdir
+----------------movefile-------------------- 
+----------------checkAccess-------------------- 
+filename already exists 
+newpath /mnt/hdd_4T/filemanager_data
+newpath /mnt/hdd_4T/filemanager_data/testdir
+----------------movefile-------------------- 
+----------------checkAccess-------------------- 
+filename already exists 
+newpath /mnt/hdd_4T/filemanager_data/testdir
+----------------movefile-------------------- 
+----------------checkAccess-------------------- 
+filename already exists 
+newpath /mnt/hdd_4T/filemanager_data/testdir
+----------------movefile-------------------- 
+----------------checkAccess-------------------- 
+filename already exists 
+----------------movefile-------------------- 
+----------------checkAccess-------------------- 
+----end----------- 
+newpath /mnt/hdd_4T/filemanager_data/testdir
+newpath /mnt/hdd_4T/filemanager_data/testdir/test
+newpath /mnt/hdd_4T/filemanager_data/testdir
+newpath /mnt/hdd_4T/filemanager_data
+----------------checkAccess-------------------- 
+newpath /mnt/hdd_4T/filemanager_data
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data/personal/Siemens
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data/personal/health
+----------------checkAccess-------------------- 
+newpath /mnt/hdd_4T/filemanager_data/personal/health
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data
+newpath /mnt/hdd_4T/filemanager_data/testdir
+newpath /mnt/hdd_4T/filemanager_data/testdir/stuff
+----------------checkAccess-------------------- 
+newpath /mnt/hdd_4T/filemanager_data/testdir/stuff
+newpath /mnt/hdd_4T/filemanager_data/testdir
+newpath /mnt/hdd_4T/filemanager_data
+----------------checkAccess-------------------- 
+newpath /mnt/hdd_4T/filemanager_data
+newpath /mnt/hdd_4T/filemanager_data/personal
+----------------checkAccess-------------------- 
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data/personal
+----------------checkAccess-------------------- 
+file or dir is not existing 
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data/personal
+----------------checkAccess-------------------- 
+file or dir is not existing 
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data/personal
+----------------checkAccess-------------------- 
+file or dir is not existing 
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data/personal
+----------------checkAccess-------------------- 
+file or dir is not existing 
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data/personal
+----------------checkAccess-------------------- 
+file or dir is not existing 
+newpath /mnt/hdd_4T/filemanager_data/personal
+----------------checkAccess-------------------- 
+file or dir is not existing 
+newpath /mnt/hdd_4T/filemanager_data/personal
+----------------checkAccess-------------------- 
+newpath /mnt/hdd_4T/filemanager_data/personal
+----------------checkAccess-------------------- 
+file or dir is not existing 
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data/personal
+----------------checkAccess-------------------- 
+file or dir is not existing 
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data/personal
+-----------------------login----------------1791972407
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data/personal
+----------------checkAccess-------------------- 
+file or dir is not existing 
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data/personal
+----------------checkAccess-------------------- 
+file or dir is not existing 
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data/personal
+----------------checkAccess-------------------- 
+file or dir is not existing 
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data/personal
+----------------checkAccess-------------------- 
+file or dir is not existing 
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data/personal
+----------------checkAccess-------------------- 
+file or dir is not existing 
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data/personal
+----------------checkAccess-------------------- 
+newpath /mnt/hdd_4T/filemanager_data/personal
+----------------checkAccess-------------------- 
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data/personal
+----------------checkAccess-------------------- 
+----------------end-------------------- 
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data/personal
+----------------checkAccess-------------------- 
+----------------end-------------------- 
+newpath /mnt/hdd_4T/filemanager_data/personal
+----------------checkAccess-------------------- 
+----------------end-------------------- 
+newpath /mnt/hdd_4T/filemanager_data/personal
+----------------checkAccess-------------------- 
+----------------end-------------------- 
+newpath /mnt/hdd_4T/filemanager_data/personal
+----------------checkAccess-------------------- 
+----------------end-------------------- 
+newpath /mnt/hdd_4T/filemanager_data/personal
+----------------checkAccess-------------------- 
+----------------end-------------------- 
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data/personal
+----------------checkAccess-------------------- 
+----------------end-------------------- 
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data/personal
+----------------checkAccess-------------------- 
+----------------end-------------------- 
+newpath /mnt/hdd_4T/filemanager_data/personal
+----------------checkAccess-------------------- 
+newpath /mnt/hdd_4T/filemanager_data/personal
+----------------checkAccess-------------------- 
+----------------end-------------------- 
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data/personal
+----------------checkAccess-------------------- 
+----------------end-------------------- 
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data/personal
+----------------checkAccess-------------------- 
+----------------end-------------------- 
+newpath /mnt/hdd_4T/filemanager_data/personal
+newpath /mnt/hdd_4T/filemanager_data
+newpath /mnt/hdd_4T/filemanager_data/testdir
+newpath /mnt/hdd_4T/filemanager_data/testdir/stuff
+newpath /mnt/hdd_4T/filemanager_data/testdir
+newpath /mnt/hdd_4T/filemanager_data
+newpath /mnt/hdd_4T/filemanager_data
+-----------------------login----------------14.10.2026 10:44:49
+newpath /mnt/hdd_4T/filemanager_data
+newpath /mnt/hdd_4T/filemanager_data
+-----------------------logout----------------14.10.2026 10:45:33
