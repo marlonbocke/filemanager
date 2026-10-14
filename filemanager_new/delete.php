@@ -1,5 +1,6 @@
 <?php 
 session_start();
+$logFile = 'debug.log';
 //Function to delete a directory and its contents recursively
 // Handling deletion requests
 
@@ -14,44 +15,42 @@ if (!isset($_POST['delete'] )) {
 } 
 
     $absoluteCpath = $_SESSION["newpath"] ?? $_SESSION["baseFileDir"];
-
     $data = basename($_POST['delete'] ?? '');
     require_once 'checkpermissions.php';
     $realFile = checkP_DownloadOpenDelete($absoluteCpath, $data);
 
 
-if (!$realFile) 
-  {
-    exit('Bad Request');
+if (!$realFile) {
+   $logLines = file($logFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+   $lastError = !empty($logLines) ? end($logLines) : 'umknown error';
+    exit('Forbidden' .$lastError);
 }
 
    if(is_file($realFile)) 
     {
 
-          if (unlink($realFile)) {
-              echo '<script>console.log("File deleted successfully.");</script>';
-              goback();
-          } else {
-              echo '<script>console.log("Error deleting file.");</script>';
-              exit;
+      if (unlink($realFile)) {
+           echo '<script>console.log("File deleted successfully.");</script>';
+           goback();
+      } else {
+          echo '<script>console.log("Error deleting file.");</script>';
+          exit;
+      }
+    } elseif(is_dir($realFile)) 
+    {
 
-
-          }
-      } elseif(is_dir($realFile)) 
-      {
-
-          if (deleteDirectory($realFile)) {
-              echo '<script>console.log("Directory deleted successfully.");</script>';
-              goback();
-          } else {
-              echo '<script>console.log("Error deleting directory.");</script>';
-              exit;
+      if (deleteDirectory($realFile)) {
+          echo '<script>console.log("Directory deleted successfully.");</script>';
+          goback();
+       } else {
+          echo '<script>console.log("Error deleting directory.");</script>';
+           exit;
           }
 
       } else {
           echo '<script>console.log("The specified path is neither a file nor a directory.");</script>';
           exit;
-      }
+     }
 
 
 

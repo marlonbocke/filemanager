@@ -1,6 +1,7 @@
 <?php
- error_log("----------------movefile-------------------- \n", 3, '/var/www/html/filemanager_new/debug.log');
+ //generated with Google AI
 session_start();
+$logFile = 'debug.log';   
 $json = file_get_contents('php://input');
 $data = json_decode($json, true);
 
@@ -35,7 +36,9 @@ require_once 'checkpermissions.php';
  $result = checkP_Move($absoluteCpath, $dataArray, $absoluteDpath);
 
 if(!isset($result) || $result == false){
-    echo json_encode(['error' => 'Forbidden: You do not have permission to access this file']);
+    $logLines = file($logFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    $lastError = !empty($logLines) ? end($logLines) : 'umknown error';
+    echo json_encode(['error' => $lastError]);
     exit;
  }
 
@@ -47,7 +50,6 @@ $checkedDestinationPath = $result[0];
      echo json_encode(['error' => 'checkedCurrentPaths is not set']);
      exit;
 }
-
 
 if(!isset($checkedDestinationPath)){
     echo json_encode(['error' => '$checkedDestinationPath is not set']);

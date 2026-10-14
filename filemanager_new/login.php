@@ -1,6 +1,6 @@
 <?php
 session_start();
-error_log("-----------------------login----------------" . time() . "\n", 3, 'debug.log');
+error_log("-----------------------login----------------" . date('d.m.Y H:i:s') . "\n", 3, 'debug.log');
 ini_set('log_errors', '1');
 ini_set('error_log', __DIR__ . 'debug.log');
 error_reporting(E_ALL);
@@ -46,14 +46,9 @@ $config= json_decode($jsondata, true);
 
     if(empty($ip) || empty($port)|| empty($db_username)|| empty($db_password)|| empty($databasename) )
     {
-        // error_log("ip address: $ip \n", 3, 'debug.log');
-        // error_log("port: $port \n", 3, 'debug.log');
-        // error_log("db_username: $db_username \n", 3, 'debug.log');
-        // error_log("db_password: $db_password \n", 3, 'debug.log');
-        // error_log("databasename: $databasename \n", 3, 'debug.log');
-         error_log(" Could not read all json data.  \n", 3, 'debug.log'); 
+         error_log("Could not read all json data.  \n", 3, 'debug.log'); 
          echo "<script>alert('Something went wrong. Please try again'); window.location.href = 'config.html';</script>";
-        exit;
+         exit;
     }   
     
 
@@ -61,12 +56,9 @@ $config= json_decode($jsondata, true);
 $connection = mysqli_connect($ip, $db_username, $db_password, $databasename, $port);
 
 if (!$connection) {
-   // die("Datenbankverbindung fehlgeschlagen");
      echo "<script>alert('Connection failed.'); window.location.href = 'index.html';</script>";
      exit;
     }   
-
-
 
 $stmt = $connection->prepare("SELECT username, credentials, loginID, userpath FROM users WHERE username = ? LIMIT 1");
 $stmt->bind_param("s", $user);
@@ -101,7 +93,6 @@ if ($result->num_rows > 0)
     echo "<script>alert('User was not found. Please try again.'); window.location.href = 'index.html';</script>";
     exit; 
 }  
-
 
 $stmt->close();
 $connection->close();

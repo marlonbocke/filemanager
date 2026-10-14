@@ -1,8 +1,69 @@
 <?php
 //function to rename a file or directory
 session_start();
+$logFile = 'debug.log';
+ 
+$absoluteCpath = $_SESSION["newpath"] ?? $_SESSION["baseFileDir"];
+$info = pathinfo($_POST['oldname']);
+$extension = $info['extension'] ?? '';
+
+//$oldname = $folderpath.'/'.$_POST['oldname'];
+$oldname = basename($_POST['oldname']);
+$newnamerequest = basename($_POST['renamefile'] ?? $_POST['renamedir'] ?? '');
+
+require_once 'checkpermissions.php';
+$result = checkP_rename($absoluteCpath, $newnamerequest, $oldname);
+
+if(!isset($result) || $result==false) {
+    http_response_code(403);
+    $logLines = file($logFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    $lastError = !empty($logLines) ? end($logLines) : 'umknown error';
+    exit('Forbidden:  ' .$lastError);
+}
 
 
+$checkedNewname = $result[0];
+$checkedOldname = $result[1];
+
+
+if(!isset($checkedNewname) && !isset($checkedOldname)) 
+{
+  echo "<script>alert('Error: renamefile or renamedir not set.');</script>";
+  exit;
+  
+}
+
+if ($_POST['type'] === 'directory') 
+  {
+
+    //$newname = $folderpath.'/'.$newnamerequest;
+    
+    if (!rename($checkedOldname, $checkedNewname)) 
+    {
+      $error = error_get_last();
+      echo "<script>alert('Error renaming directory from: ". $error['message'] . "'); window.location.href = 'main.php';</script>"; 
+      exit;
+    } else {
+      header("Location: main.php"); 
+        exit;
+    }
+
+
+  } elseif ($_POST['type'] === 'file') 
+  {  
+    $newname = $checkedNewname.'.' . $extension;
+
+    if(!rename($checkedOldname, $newname)) 
+    {
+      $error = error_get_last();
+      echo "<script>alert('Error renaming file from: ". $error['message'] . "'); window.location.href = 'main.php';</script>";  
+      
+    } else {
+        gobackfromRename($newname);  
+    }
+
+
+  }
 
 function gobackfromRename($newname) {
     echo "<script>console.log('Going back from rename...');</script>";
@@ -18,65 +79,3 @@ function gobackfromRename($newname) {
     }
     exit;
 }
-
-
-$folderpath = $_SESSION["newpath"] ?? $_SESSION["baseFileDir"];
-$info = pathinfo($_POST['oldname']);
-$extension = $info['extension'] ?? '';
-$oldname = $folderpath.'/'.$_POST['oldname']; 
-$newnamerequest = $_POST['renamefile'] ?? $_POST['renamedir'] ?? '';
-
-
-
-if (!isset($_SESSION["user_path"]))  {
-    http_response_code(401);
-    echo "<script> alert('Not authorized. Please log in.');</script>";
-    exit;
-}
-
-if(!isset($_POST['renamefile']) && !isset($_POST['renamedir'])) 
-{
-  echo "<script>alert('Error: renamefile or renamedir not set.');</script>";
-  exit;
-  
-}
-
-
-if(!file_exists($oldname)) {
-    echo "<script>alert('Error: The file or directory does not exist.');</script>";
-    exit;
-}
-
-
-if ($_POST['type'] === 'directory') 
-  {
-
-    $newname = $folderpath.'/'.$newnamerequest;
-    
-    if (rename($oldname, $newname)) 
-    {
-        header("Location: main.php"); 
-        exit;
-
-    } else {
-      $error = error_get_last();
-      echo "<script>alert('Error renaming directory from: ". $error['message'] . "');</script>";  
-      exit;
-    }
-
-
-  } elseif ($_POST['type'] === 'file') 
-  {  
-    $newname = $folderpath.'/'.$newnamerequest.'.' . $extension;
-
-    if(!rename($oldname, $newname)) 
-    {
-      $error = error_get_last();
-      echo "<script>alert('Error renaming file from: ". $error['message'] . "');</script>";  
-      exit;
-    } else {
-        gobackfromRename($newname);  
-    }
-
-
-  }
