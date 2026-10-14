@@ -82,7 +82,7 @@ if ($result->num_rows > 0)
         exit;
 
     } else {
-        error_log("Wrong password: $password. Correct password: " . $row['credentials'] . "\n", 3, 'debug.log');
+        //error_log("Wrong password: $password. Correct password: " . $row['credentials'] . "\n", 3, 'debug.log');
         echo "<script>alert('Wrong password. Please try again.'); window.location.href = 'index.html';</script>";
         exit; 
       }
