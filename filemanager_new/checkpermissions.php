@@ -150,19 +150,19 @@ function checkP_rename($absoluteCpath, $requestnewname, $oldname)
 // Actions: create folder, rename, download, open, move, delete, upload
 
 // function: check_CreateRename
-// create folder: $absoluteCpath, $requestname, $ID
+//            create folder: $absoluteCpath, $requestname, $ID
 
-
-// rename:        $absoluteCpath, $requestnewname, $oldname, $ID
+//  function: check_DownloadOpenDelete
+//            rename:  $absoluteCpath, $requestnewname, $oldname, $ID
 
 // function: check_DownloadOpenDelete
-// download: $absoluteCpath, $data, $ID
-// open:     $absoluteCpath, $data, $ID
-// delete:   $absoluteCpath, $data, $ID
+//           download: $absoluteCpath, $data, $ID
+//           open:     $absoluteCpath, $data, $ID
+//           delete:   $absoluteCpath, $data, $ID
 
 // function: check_Move
-// move:     $absoluteCpath, $data, $absoluteDpath, $ID
+//            move:    $absoluteCpath, $data, $absoluteDpath, $ID
 
 
-// for debugging: tail -f /var/log/apache2/error.log | grep --line-buffered -oE '^[A-Za-z]+ [A-Za-z]+ [0-9 :]+ [0-9]+|PathDestination:.*|BasePrefix:.*|Starts with.*|File exists\?.*|Is dir\?.*|---+'
+// for debugging: tail -f /var/log/apache2/error.log
 //or you can just use here the logs file. 
