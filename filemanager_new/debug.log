@@ -74,4 +74,21 @@ userpath: /mnt/hdd_4T/filemanager_data
 userpath: /mnt/hdd_4T/filemanager_data
 Access denied. 
 Access denied. 
+<<<<<<< HEAD
 >>>>>>> c5abb75 (config setup improved)
+=======
+Access denied. 
+Access denied. 
+-----------------------login----------------1791953367
+userpath: /mnt/hdd_4T/filemanager_data
+userpath: /mnt/hdd_4T/filemanager_data
+newpath /mnt/hdd_4T/filemanager_data/personal//
+newpath /mnt/hdd_4T/filemanager_data/personal//
+newpath /mnt/hdd_4T/filemanager_data
+newpath /mnt/hdd_4T/filemanager_data/testdir
+newpath /mnt/hdd_4T/filemanager_data/testdir/stuff
+newpath /mnt/hdd_4T/filemanager_data/testdir/stuff/test
+newpath /mnt/hdd_4T/filemanager_data/testdir/stuff
+newpath /mnt/hdd_4T/filemanager_data/testdir
+newpath /mnt/hdd_4T/filemanager_data
+>>>>>>> fb6ebff (config setup improved)
