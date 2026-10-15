@@ -2,7 +2,7 @@
     session_start();
 
     if (isset($_SESSION["user_path"]) && !isset($_SESSION["newpath"]))  {
-      error_log('userpath: ' . $_SESSION['user_path'] . "\n", 3, 'debug.log');
+      //error_log('userpath: ' . $_SESSION['user_path'] . "\n", 3, 'debug.log');
       $baseFileDir = $_SESSION["user_path"];    //store userpath directory in baseFileDir 
       $_SESSION["baseFileDir"] = $baseFileDir;
 
@@ -14,7 +14,7 @@
 
     } else if (isset($_SESSION['newpath']))
     { 
-       error_log('newpath ' . $_SESSION['newpath'] . "\n", 3, 'debug.log');  
+       //error_log('newpath ' . $_SESSION['newpath'] . "\n", 3, 'debug.log');  
       $baseFileDir = $_SESSION["user_path"];
       $allowedBasePath = $baseFileDir;
       $allowedBasePathReal = realpath($allowedBasePath);   

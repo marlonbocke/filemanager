@@ -4,7 +4,7 @@ session_start();
 
 function checkP_DownloadOpenDelete($absoluteCpath, $data) 
 {      
-    error_log("----------------checkAccess-------------------- \n", 3, 'debug.log');   
+    error_log("----------------checkAccess--------------------". date('d.m.Y H:i:s') . "\n", 3, 'debug.log');   
     if (!isset($_SESSION["user_path"])) {
         error_log("Seession is not set \n", 3, 'debug.log');
         return false;
@@ -24,25 +24,27 @@ function checkP_DownloadOpenDelete($absoluteCpath, $data)
          
           foreach($data as $i => $item)
            {
-            $realFileArray[$i] = $pathPrefix . DIRECTORY_SEPARATOR . $item;
+            $realFileArray[$i] = $currentpath . DIRECTORY_SEPARATOR . $item;
 
             if (!file_exists($realFileArray[$i])) {   //check if the file or directory exists
+            error_log("$realFileArray[$i] \n", 3, 'debug.log');                  
              error_log("file or dir is not existsing \n", 3, 'debug.log');
             return false;
             }
 
            } 
-           error_log("----------------end-------------------- \n", 3, 'debug.log');
            return $realFileArray;  
       
         } else 
         {
-        $realFile = $absoluteCpath . DIRECTORY_SEPARATOR . $data;
-        if (!file_exists($realFile) ) {                  //check if the file or directory exists
-         error_log("file or dir is not existing \n", 3, 'debug.log');
-        return false;
-        }
-        error_log("----------------end-------------------- \n", 3, 'debug.log');
+        $realFile = $currentpath . DIRECTORY_SEPARATOR . $data;
+        // if (!file_exists($realFile) ) { 
+        //                      //check if the file or directory exists
+        //  error_log("$realFile \n", 3, 'debug.log');                  
+        //  error_log("file or dir is not existing \n", 3, 'debug.log');
+        // return false;
+        // }
+        
         return $realFile;  //return the real file path if all checks pass 
         }
 
@@ -51,7 +53,7 @@ function checkP_DownloadOpenDelete($absoluteCpath, $data)
 
 function checkP_Move($absoluteCpath,  $dataArray, $absoluteDpath)
 {
-   error_log("----------------checkAccess-------------------- \n", 3, 'debug.log');
+   error_log("----------------checkAccess-------------------- ". date('d.m.Y H:i:s') . "\n", 3, 'debug.log');
     if (!isset($_SESSION["user_path"])) {
         error_log("Seession is not set \n", 3, 'debug.log');
         return false;
@@ -100,7 +102,6 @@ function checkP_Move($absoluteCpath,  $dataArray, $absoluteDpath)
     }
 
     $checkedDestinationPath = $pathDestination;
-    error_log("----------------end-------------------- \n", 3, 'debug.log');
     return [$checkedDestinationPath, $checkedCurrentPaths];
 }
 
@@ -111,7 +112,7 @@ function checkP_Move($absoluteCpath,  $dataArray, $absoluteDpath)
 
 function checkP_rename($absoluteCpath, $requestnewname, $oldname)
 {
-    error_log("----------------checkAccess-------------------- \n", 3, 'debug.log');
+    error_log("----------------checkAccess-------------------- ". date('d.m.Y H:i:s') . " \n", 3, 'debug.log');
      
     if (!isset($_SESSION["user_path"])) {
         error_log("Session is not set \n", 3, 'debug.log');
@@ -139,10 +140,51 @@ function checkP_rename($absoluteCpath, $requestnewname, $oldname)
         return false;
     }
     $checkedNewname = $absoluteCpath . DIRECTORY_SEPARATOR . $requestnewname;
- error_log("----------------end-------------------- \n", 3, 'debug.log');
-    return [$checkedNewname, $checkedOldname ];
+    return [$checkedNewname, $checkedOldname];
 
 }
+
+
+
+function checkP_CreateFolder($absoluteCpath, $reqeustname)
+{
+    error_log("----------------checkAccess-------------------- ". date('d.m.Y H:i:s') . "\n", 3, 'debug.log');
+        
+    if (!isset($_SESSION["user_path"])) {
+        error_log("Session is not set \n", 3, 'debug.log');
+        return false;
+    } 
+    $userPath = $_SESSION['user_path'];
+    $basePath = rtrim($userPath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+    $currentpath = rtrim($absoluteCpath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;  
+    
+    if(!str_starts_with($currentpath, $basePath)) {   
+        error_log("Access denied \n", 3, 'debug.log');
+        return false;
+    }
+
+    //provided with Google AI---------
+    //$requestname = trim($requestname);
+    // if(empty($requestname)) {
+    // error_log("Foldername is empty \n", 3, 'debug.log');
+    // return false;
+    // }
+    $forbiddenChars = '/[\/\\\\?*:|"<>#%&{}\\^~\[\]`]/';
+
+    if (preg_match($forbiddenChars, $requestname) || str_contains($requestname, '..')) {
+        error_log("Foldername contains forbidden characters\n", 3, 'debug.log');
+        return false;
+    }
+   //end------------- 
+    $checkfoldername = $currentpath. $reqeustname;   
+    if(file_exists($checkfoldername))  { 
+        error_log("foldername is existing \n", 3, 'debug.log');
+        return false;
+
+    }
+    return $checkfoldername;
+}
+
 
 
 
