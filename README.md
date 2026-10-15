@@ -35,6 +35,6 @@ credentials.
 
 This unfinished prototype is **not suitable for production or public
 deployment**. Authentication, file access, and configuration need further
-security review. Remove any sample credentials and rotate exposed credentials.
+security review.
 
 Automated tests and a complete setup guide are not currently available.
