@@ -1,53 +1,40 @@
 # Filemanager
 
-Ein dateibasierter Web-Dateimanager in PHP. Das Projekt befindet sich noch in
-Entwicklung und dient aktuell als Lern- und Portfolio-Projekt.
+A PHP-based web file manager and learning/portfolio project, currently under
+development.
 
-## Funktionen
+README written with the assistance of GitHub Copilot.
 
-- Anmeldung über eine MySQL-Datenbank
-- Dateien und Ordner anzeigen und verwalten
-- Dateien hochladen und herunterladen
-- Ordner erstellen
-- Dateien und Ordner umbenennen, verschieben und löschen
-- Vorschau für unterstützte Dateien
-- Separater, experimenteller Bereich für die Zwei-Faktor-Authentifizierung
+## Features
 
-Der Funktionsumfang und die einzelnen Bereiche sind noch nicht vollständig
-vereinheitlicht oder getestet.
+- MySQL-backed login
+- Browse, upload, download, preview, rename, move, and delete files
+- Create and manage folders
+- Experimental two-factor authentication
 
-## Voraussetzungen
+Features are still being developed and have not all been tested.
 
-- PHP 8.3 oder neuer
-- Webserver mit PHP-Unterstützung
-- MySQL oder MariaDB
-- PHP-Erweiterung `mysqli`
-- Für den experimentellen 2FA-Bereich zusätzlich Composer
+## Requirements
 
-PHP 8.3 wird unter anderem wegen `json_validate()` in `index.php` benötigt.
+- PHP 8.3+
+- A PHP-enabled web server
+- MySQL or MariaDB, with the `mysqli` extension
+- Composer for the experimental 2FA component
 
-## Entwicklungsstand und Einrichtung
+PHP 8.3 is required for `json_validate()` used in `index.php`.
 
-Eine vollständige Installation ist derzeit noch nicht dokumentiert. Die
-Anwendung erwartet eine konfigurierte MySQL-Datenbank mit einer `users`-Tabelle
-und den im Code verwendeten Feldern. Ein Datenbankschema ist in diesem
-Repository noch nicht enthalten.
+## Setup
 
-Die Konfigurationsseite kann eine lokale Datenbankkonfiguration speichern.
-Diese Konfiguration enthält Zugangsdaten und gehört nicht ins Repository.
-Verwende ausschließlich eigene Entwicklungs-Zugangsdaten und stelle die
-Anwendung nicht öffentlich erreichbar bereit, bevor die unten genannten
-Sicherheitspunkte behoben sind.
+Installation is not yet documented. The app expects a configured MySQL
+database with a `users` table; a schema is not included.
 
-## Sicherheitshinweis
+Keep database credentials out of the repository and use development-only
+credentials.
 
-Dieses Projekt ist ein unfertiger Prototyp und **nicht für den produktiven
-Einsatz oder die Bereitstellung im öffentlichen Internet geeignet**. Die
-Authentifizierung, Dateizugriffe und Konfiguration müssen vor einem Einsatz
-weiter geprüft und abgesichert werden. Insbesondere müssen hinterlegte
-Beispiel-Zugangsdaten entfernt und offengelegte Zugangsdaten geändert werden.
+## Security
 
-## Tests
+This unfinished prototype is **not suitable for production or public
+deployment**. Authentication, file access, and configuration need further
+security review. Remove any sample credentials and rotate exposed credentials.
 
-Automatisierte Tests und ein vollständiger Installations-/Testablauf sind
-derzeit nicht enthalten.
+Automated tests and a complete setup guide are not currently available.
