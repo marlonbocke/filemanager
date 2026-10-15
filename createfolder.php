@@ -1,32 +1,33 @@
 <?php
 session_start();
-if (!isset($_SESSION["user_path"]))  {
-    http_response_code(401);
-    echo "<script> alert('Not authorized. Please log in.');</script>";
-    exit;
-}
-
-
-$folderpath = $_SESSION["newpath"] ?? $_SESSION["baseFileDir"];
-
-//function to create an new folder
+$logFile = 'debug.log';
+ 
 if (!isset($_POST['createfolder'])) {
   echo "<script>alert('Error: createfolder not set.');</script>";
   exit;
 }
 
-if(!is_dir($folderpath)) {
-    echo "<script>alert('Error: The specified path is not a directory.');</script>";
+$absoluteCpath = $_SESSION["newpath"] ?? $_SESSION["baseFileDir"];
+$requestname = basename($_POST['createfolder']);
+
+require_once 'checkpermissions.php';
+$cheched_newfolderpath = checkP_Createfolder($absoluteCpath, $requestname);
+
+if(!isset($cheched_newfolderpath) || $cheched_newfolderpath==false) {
+    http_response_code(403);
+    $logLines = file($logFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    $lastError = !empty($logLines) ? end($logLines) : 'umknown error';
+    echo "<script>alert('$lastError'); window.location.href = 'main.php' ;</script>";  
     exit;
 }
 
 
-$newFolderPath = $folderpath . '/' . $_POST['createfolder'];
+if(!mkdir($cheched_newfolderpath)) {
+echo "<script>alert('Error: Failed to create the folder.'); window.location.href = 'main.php' ;</script>";  
+exit;
+}
 
-if(mkdir($newFolderPath)) {
-  header("Location: main.php");
-  exit;
-} else 
-  echo "<script>alert('Error: Failed to create the folder.');</script>";
-    exit;
+header("Location: main.php");
+exit;  
+
   
