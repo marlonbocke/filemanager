@@ -6,19 +6,20 @@ $logFile = 'debug.log';
 $absoluteCpath = $_SESSION["newpath"] ?? $_SESSION["baseFileDir"];
 $info = pathinfo($_POST['oldname']);
 $extension = $info['extension'] ?? '';
+error_log("$extension \n", 3, 'debug.log');
 
 //$oldname = $folderpath.'/'.$_POST['oldname'];
 $oldname = basename($_POST['oldname']);
 $newnamerequest = basename($_POST['renamefile'] ?? $_POST['renamedir'] ?? '');
 
 require_once 'checkpermissions.php';
-$result = checkP_rename($absoluteCpath, $newnamerequest, $oldname);
+$result = checkP_rename($absoluteCpath, $newnamerequest, $oldname, $extension);
 
 if(!isset($result) || $result==false) {
     http_response_code(403);
     $logLines = file($logFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     $lastError = !empty($logLines) ? end($logLines) : 'umknown error';
-    exit('Forbidden:  ' .$lastError);
+    echo "<script>alert('$lastError');window.location.href = 'main.php';</script>";
 }
 
 
@@ -26,20 +27,17 @@ $checkedNewname = $result[0];
 $checkedOldname = $result[1];
 
 
-if(!isset($checkedNewname) && !isset($checkedOldname)) 
-{
+if(!isset($checkedNewname) && !isset($checkedOldname)) {
   echo "<script>alert('Error: renamefile or renamedir not set.');</script>";
   exit;
-  
 }
 
-if ($_POST['type'] === 'directory') 
+if($_POST['type'] === 'directory') 
   {
 
     //$newname = $folderpath.'/'.$newnamerequest;
     
-    if (!rename($checkedOldname, $checkedNewname)) 
-    {
+    if (!rename($checkedOldname, $checkedNewname)) {
       $error = error_get_last();
       echo "<script>alert('Error renaming directory from: ". $error['message'] . "'); window.location.href = 'main.php';</script>"; 
       exit;
@@ -49,7 +47,7 @@ if ($_POST['type'] === 'directory')
     }
 
 
-  } elseif ($_POST['type'] === 'file') 
+  } elseif($_POST['type'] === 'file') 
   {  
     $newname = $checkedNewname.'.' . $extension;
 
