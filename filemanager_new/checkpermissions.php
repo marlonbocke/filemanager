@@ -110,7 +110,7 @@ function checkP_Move($absoluteCpath,  $dataArray, $absoluteDpath)
 
 
 
-function checkP_rename($absoluteCpath, $requestnewname, $oldname)
+function checkP_rename($absoluteCpath, $requestnewname, $oldname, $extension)
 {
     error_log("----------------checkAccess-------------------- ". date('d.m.Y H:i:s') . " \n", 3, 'debug.log');
      
@@ -134,12 +134,18 @@ function checkP_rename($absoluteCpath, $requestnewname, $oldname)
         return false;
     }
     $checkedOldname = $absoluteCpath . DIRECTORY_SEPARATOR . $oldname;
+    if(isset($extension)){
+        $checkNewname = $absoluteCpath . DIRECTORY_SEPARATOR . $requestnewname.'.'.$extension;
+     }   
+     $checkNewname = $absoluteCpath . DIRECTORY_SEPARATOR . $requestnewname;
+    
+    error_log("$checkNewname \n", 3, 'debug.log');
 
-    if (file_exists($absoluteCpath . DIRECTORY_SEPARATOR . $requestnewname) ) {                 
+    if (file_exists($checkNewname) ) {                 
          error_log("filename already exists \n", 3, 'debug.log');
         return false;
     }
-    $checkedNewname = $absoluteCpath . DIRECTORY_SEPARATOR . $requestnewname;
+    $checkedNewname = $checkNewname;  
     return [$checkedNewname, $checkedOldname];
 
 }

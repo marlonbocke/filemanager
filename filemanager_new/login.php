@@ -47,7 +47,7 @@ $config= json_decode($jsondata, true);
     if(empty($ip) || empty($port)|| empty($db_username)|| empty($db_password)|| empty($databasename) )
     {
          error_log("Could not read all json data.  \n", 3, 'debug.log'); 
-         echo "<script>alert('Something went wrong. Please try again'); window.location.href = 'config.html';</script>";
+         echo "<script>alert('Something went wrong.Please try again'); window.location.href = 'config.html';</script>";
          exit;
     }   
     
@@ -83,7 +83,7 @@ if ($result->num_rows > 0)
 
     } else {
         //error_log("Wrong password: $password. Correct password: " . $row['credentials'] . "\n", 3, 'debug.log');
-        echo "<script>alert('Wrong password. Please try again.'); window.location.href = 'index.html';</script>";
+        echo "<script>alert('Wrong password. Please try again.'); window.location.href = 'index.php';</script>";
         exit; 
       }
       

@@ -1,130 +1,113 @@
-    <?php
-    session_start();
+<?php
+session_start();
 
-    if (isset($_SESSION["user_path"]) && !isset($_SESSION["newpath"]))  {
-      //error_log('userpath: ' . $_SESSION['user_path'] . "\n", 3, 'debug.log');
+  if(isset($_SESSION["user_path"]) && !isset($_SESSION["newpath"]))
+    {
       $baseFileDir = $_SESSION["user_path"];    //store userpath directory in baseFileDir 
       $_SESSION["baseFileDir"] = $baseFileDir;
 
       $fileDir = $baseFileDir;
       $allowedBasePath = $baseFileDir;
-      $allowedBasePathReal = realpath($allowedBasePath);   
-      $_SESSION["allowedBasePathReal"] = $allowedBasePathReal;
+      $_SESSION["allowedBasePathReal"] = $baseFileDir;
+      
+    } else if(isset($_SESSION['newpath'])) {
 
-
-    } else if (isset($_SESSION['newpath']))
-    { 
-       //error_log('newpath ' . $_SESSION['newpath'] . "\n", 3, 'debug.log');  
       $baseFileDir = $_SESSION["user_path"];
       $allowedBasePath = $baseFileDir;
       $allowedBasePathReal = realpath($allowedBasePath);   
       $_SESSION["allowedBasePathReal"] = $allowedBasePathReal;
+      
 
-    }
-    else if(!isset($_SESSION["user_path"]) && !isset($_SESSION["newpath"])) {
+    } else if(!isset($_SESSION["user_path"]) && !isset($_SESSION["newpath"])) {
+
       error_log("Access denied. \n", 3, 'debug.log');
       header('location: index.php');
       exit;
     }
 
+  //$breadcrumbParts = [];
+  $requestedNewPath = $_SESSION['newpath'] ?? $_SESSION['user_path'];
+  $display_newpath = $_SESSION['newpath'] ?? $_SESSION['user_path'];
+  $baseDirReal = $_SESSION["allowedBasePathReal"] ;    //real path of base directory
 
+  $baseDirReal = realpath($_SESSION["user_path"]);
+  $requestedReal = realpath($requestedNewPath);
 
-    $breadcrumbParts = [];
-    $requestedNewPath = $_SESSION['newpath'] ?? $_SESSION['user_path']  ;
-    $display_newpath = $_SESSION['newpath'] ?? $_SESSION['user_path'] ;
-    $type = [];
-    $filenames = [];
-    $filesizes = [];
+  //created by google gemini AI for improving the security 
+  $baseDirNormalized = rtrim($baseDirReal, '/\\') . DIRECTORY_SEPARATOR;      
+  $requestedNormalized = rtrim($requestedReal, '/\\') . DIRECTORY_SEPARATOR;
+  //-----------------------------------------------
 
-    $userRequestedPath = $requestedNewPath;
-    $baseDirReal = $_SESSION["allowedBasePathReal"] ;    //real path of base directory
-    $requestedRealpath = realpath($userRequestedPath);
-
-    //created by google gemini AI for improving the security 
-      $baseDirNormalized = rtrim($baseDirReal, '/\\') . DIRECTORY_SEPARATOR;      
-      $requestedNormalized = rtrim($requestedRealpath, '/\\') . DIRECTORY_SEPARATOR;
-    //-----------------------------------------------
-    
-       if (str_starts_with($requestedNormalized, $baseDirNormalized) == true && is_dir($requestedRealpath)) 
-      {
-        // The requested path is valid and within the allowed base directory
-      $fileDir = rtrim($userRequestedPath, '/').DIRECTORY_SEPARATOR;      //set the file directory to the requested path
-      $fileDir =  $requestedNormalized; 
-      $relativeDisplayPath = ltrim(str_replace($baseDirReal, '', $requestedRealpath), '/'); //set the relative display path for breadcrumb navigation
-
-    } else 
+  // check if requested path is valid and within the allowed base directory
+  if(str_starts_with($requestedNormalized, $baseDirNormalized) == true && is_dir($requestedNormalized)) 
     {
-      error_log("Something went wrong. \n", 3, 'debug.log');
-     header('location: index.php');
-    } 
     
+    $fileDir = rtrim($userRequestedPath, '/').DIRECTORY_SEPARATOR;      //set the file directory to the requested path
+    $fileDir =  $requestedNormalized;
+    $relativeDisplayPath =  '/'. ltrim(str_replace($baseDirReal, '', $requestedNormalized), '/'); //set the relative display path for breadcrumb navigation
+   
+    } else {
 
+      error_log("Something went wrong. \n", 3, 'debug.log');
+      $_SESSION = array();
+      session_destroy();
+      header('location: index.php');
+      exit;
+    } 
+  $type = [];
+  $filenames = [];
+  $filesizes = [];
+  $scanDir = rtrim($fileDir, DIRECTORY_SEPARATOR);
+  $files = scandir($scanDir);
+  foreach($files as $file) {
+          //loop for storing every filename
+          if ($file === '.' || $file === '..' || $file === '.DS_Store' || $file === '._.DS_Store' || $file === '.Spotlight-V100' || $file === '.Trashes' || $file === '.' || str_starts_with($file, '._')) {    //skip some files with "." or ..
+            continue;
+          }
+          $filePath = $fileDir.$file;                //set the file path
+          if(is_file($filePath)) {
 
+             $type[] = 'file';
+             $date[] = date('d.m.Y H:i:s', filemtime($filePath));                                   
+             $filenames[] = $file;                             //saving the filename in the array
+             $filesizes[] = filesize($filePath);
 
-    $scanDir = rtrim($fileDir, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
-    $files = scandir($scanDir);
-  foreach ($files as $file) {
-      //loop for storing every filename
-      if ($file === '.' || $file === '..' || $file === '.DS_Store' || $file === '._.DS_Store' || $file === '.Spotlight-V100' || $file === '.Trashes' || $file === '.' || str_starts_with($file, '._')) {    //skip some files with "." or ..
-          continue;
-      }
-      $filePath = $fileDir.$file;                //set the file path
+            } elseif (is_dir($filePath)) {
 
-      if (is_file($filePath)) {
+              $type[] = 'Directory';
+              $date[] = date('d.m.Y H:i:s', filemtime($filePath));
+              $filenames[] = $file;
+              $filesizes[] = filesize($filePath);
 
-          $type[] = 'file';
-          $date[] = date('d.m.Y H:i:s', filemtime($filePath));                                   
-          $filenames[] = $file;                             //saving the filename in the array
-          $filesizes[] = filesize($filePath);
+            }
 
-      } elseif (is_dir($filePath)) {
-          // It's a directory, skip or handle accordingly
-          $type[] = 'Directory';
-          $date[] = date('d.m.Y H:i:s', filemtime($filePath));
-          $filenames[] = $file;
-          $filesizes[] = filesize($filePath);
-      }
+        }
 
-    }
-
-      if(!isset($_SESSION['newpath'])) {
-        $folderpath = $_SESSION['baseFileDir'];
-      } else {
-        $folderpath = $_SESSION['newpath'];
-      }
-
-
-     //Constructing the relative web path for file operations
-      $relativeWebPath = $baseFileDir.'/'.ltrim($relativeDisplayPath, '/').'/';
-      $breadcrumbParts = [];
-      if ($relativeDisplayPath !== '') {
+  //Constructing the relative web path for file operations
+  $relativeWebPath = $baseFileDir.'/'.ltrim($relativeDisplayPath, '/').'/';
+  $breadcrumbParts = [];
+    
+  if($relativeDisplayPath !== '') {
       $breadcrumbParts = array_values(array_filter(explode('/', trim($relativeDisplayPath, '/')), static function ($part) {
-      return $part !== '';
-       }));
-      }
+      return $part !== '';  
+      }));
+    }
      
 
 
-if (isset($_POST['clear_image_session']) || isset($_POST['clear_video_session']) || isset($_POST['clear_pdf_session']) || isset($_POST['clear_textfile_session'])) 
-{
-    unset($_SESSION['filemanager_image']);
-    unset($_SESSION['filemanager_movie']);
-    unset($_SESSION['filemanager_pdf']);
-    unset($_SESSION['filemanager_textfile']);
-    header("Location: main.php");
-    exit;
-}
+  if(isset($_POST['clear_image_session']) || isset($_POST['clear_video_session']) || isset($_POST['clear_pdf_session']) || isset($_POST['clear_textfile_session'])) 
+    {
+      unset($_SESSION['filemanager_image']);
+      unset($_SESSION['filemanager_movie']);
+      unset($_SESSION['filemanager_pdf']);
+      unset($_SESSION['filemanager_textfile']);
+      header("Location: main.php");
+      exit;
+    }
 
 
-
-
-
-
-
-
-
-     function listDirectories($dir, $basePath = '')
-     {
+  function listDirectories($dir, $basePath = '')
+  {
         $items = scandir($dir);
           echo '<ul class="directory-tree">';
             foreach ($items as $item) 
@@ -145,12 +128,12 @@ if (isset($_POST['clear_image_session']) || isset($_POST['clear_video_session'])
              }
             echo '</ul>'; //generated by Google AI
 
-      }
+  }
 
 
-    ?>
+?>
 
-    <!DOCTYPE html>
+<!DOCTYPE html>
 
     <html>
     <head>
@@ -468,7 +451,6 @@ if (isset($_POST['clear_image_session']) || isset($_POST['clear_video_session'])
               <img class="img file-icon" src="images/image.png" alt="Image Icon">
               <form method="POST" action="open.php">
                 <input type="hidden" name="file" value="<?php echo htmlspecialchars($filenames[$i], ENT_QUOTES, 'UTF-8'); ?>">
-                <input type="hidden" name="path" value="<?php echo $folderpath; ?>">
                 <input type="hidden" name="ID" value="539485786049387579038">
                 <input type="hidden" name="button" value="openfileWindow">
                 <button class="items_buttons"
@@ -548,7 +530,6 @@ if (isset($_POST['clear_image_session']) || isset($_POST['clear_video_session'])
               <img class="img file-icon" src="images/file_icon2.png" alt="File Icon">
               <form method="POST" action="open.php">
                 <input type="hidden" name="file" value="<?php echo htmlspecialchars($filenames[$i], ENT_QUOTES, 'UTF-8'); ?>">
-                <input type="hidden" name="path" value="<?php echo htmlspecialchars($folderpath, ENT_QUOTES, 'UTF-8'); ?>">
                 <input type="hidden" name="ID" value="539485786049387579038">
                 <input type="hidden" name="button" value="openfileWindow">
                 <button class="items_buttons"
@@ -587,7 +568,6 @@ if (isset($_POST['clear_image_session']) || isset($_POST['clear_video_session'])
               <img class="img file-icon" src="images/unbekannte-mail.png" alt="File Icon">
               <form method="POST" action="open.php">
                 <input type="hidden" name="file" value="<?php echo htmlspecialchars($filenames[$i], ENT_QUOTES, 'UTF-8'); ?>">
-                <input type="hidden" name="path" value="<?php echo htmlspecialchars($folderpath, ENT_QUOTES, 'UTF-8'); ?>">
                 <input type="hidden" name="ID" value="539485786049387579038">
                 <input type="hidden" name="button" value="openfileWindow">
                 <button class="items_buttons"
@@ -662,21 +642,19 @@ if (isset($_POST['clear_image_session']) || isset($_POST['clear_video_session'])
       </form>
       <form method="POST" action="delete.php" id="delete_form_file">
         <input type="hidden" name="delete" value="">
-        <input type="hidden" name="newpath" value="<?php echo $folderpath ?>">
         <button class="items_buttons" type="submit"><span>🗑️</span> Delete </button>
       </form>
       <form id="movefolder">
         <button
           class="items_buttons"
           id="move_to_folder_button"
-          onclick="manage_window(event, 'movedata_view','file', document.getElementById('move_to_folder_button').value, '<?php echo $folderpath; ?>'  )">
+          onclick="manage_window(event, 'movedata_view','file', document.getElementById('move_to_folder_button').value, '<?php echo $requestedNewPath; ?>'  )">
           <span>📁</span> Move to folder
         </button>
       </form>
 
       <form method="POST" action="open.php" id="openpreviewpdf_form">
         <input type="hidden" name="file" value="">
-        <input type="hidden" name="path" value="<?php echo $folderpath; ?>">
         <input type="hidden" name="ID" value="539485786049387579038">
         <input type="hidden" name="button" value="openfile">
         <button class="items_buttons" type="submit"><span>👁️</span> Preview</button>
@@ -701,13 +679,12 @@ if (isset($_POST['clear_image_session']) || isset($_POST['clear_video_session'])
 
       <form method="POST" action="delete.php" id="delete_form_directory">
         <input type="hidden" name="delete" value="">
-        <input type="hidden" name="newpath" value="<?php echo $folderpath; ?>">
         <button class="items_buttons" type="submit"><span>🗑️</span> Delete</button>
       </form>
       <button
         class="items_buttons"
         id="move_to_folder_button"
-        onclick="manage_window(event, 'movedata_view', 'directory', document.getElementById('move_to_folder_button').value, '<?php echo $folderpath ?>'  )" >
+        onclick="manage_window(event, 'movedata_view', 'directory', document.getElementById('move_to_folder_button').value, '<?php echo $requestedNewPath ?>'  )" >
         <span>📁</span> Move to folder
       </button>
     </div>
