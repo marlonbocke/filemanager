@@ -4,16 +4,13 @@ session_start();
 $logFile = 'debug.log';
  
 $absoluteCpath = $_SESSION["newpath"] ?? $_SESSION["baseFileDir"];
-$info = pathinfo($_POST['oldname']);
-$extension = $info['extension'] ?? '';
-error_log("$extension \n", 3, 'debug.log');
 
 //$oldname = $folderpath.'/'.$_POST['oldname'];
 $oldname = basename($_POST['oldname']);
 $newnamerequest = basename($_POST['renamefile'] ?? $_POST['renamedir'] ?? '');
 
 require_once 'checkpermissions.php';
-$result = checkP_rename($absoluteCpath, $newnamerequest, $oldname, $extension);
+$result = checkP_rename($absoluteCpath, $newnamerequest, $oldname);
 
 if(!isset($result) || $result==false) {
     http_response_code(403);
@@ -49,9 +46,8 @@ if($_POST['type'] === 'directory')
 
   } elseif($_POST['type'] === 'file') 
   {  
-    $newname = $checkedNewname.'.' . $extension;
-
-    if(!rename($checkedOldname, $newname)) 
+  
+    if(!rename($checkedOldname, $checkedNewname)) 
     {
       $error = error_get_last();
       echo "<script>alert('Error renaming file from: ". $error['message'] . "'); window.location.href = 'main.php';</script>";  
