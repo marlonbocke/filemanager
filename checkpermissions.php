@@ -137,9 +137,6 @@ function checkP_rename($absoluteCpath, $requestnewname, $oldname)
     $extension = $info['extension'] ?? '';
     error_log("name:        $requestnewname \n", 3, 'debug.log');
 
-
-
-
     if(!str_starts_with($currentpathReal, $basePathReal)) {   
         error_log("pathDestination is not part of the base directory \n", 3, 'debug.log');
         return false;
@@ -195,7 +192,7 @@ function checkP_CreateFolder($absoluteCpath, $reqeustname)
     //provided with Google AI---------
     $forbiddenChars = '/[\/\\\\?*:|"<>#%&{}\\^~\[\]`]/';
 
-    if (preg_match($forbiddenChars, $requestname) || str_contains($requestname, '..')) {
+    if(preg_match($forbiddenChars, $requestname) || str_contains($requestname, '..')) {
         error_log("Foldername contains forbidden characters\n", 3, 'debug.log');
         return false;
     }
@@ -210,25 +207,69 @@ function checkP_CreateFolder($absoluteCpath, $reqeustname)
 }
 
 
+function checkP_upload($absoluteCpath, $uploadfiles)
+{
+    error_log("----------------checkAccess Upload-------------------- ". date('d.m.Y H:i:s') . "\n", 3, 'debug.log');
+    if (!isset($_SESSION["user_path"])) {
+        error_log("Session is not set \n", 3, 'debug.log');
+        return false;
+    }
+    $userPath = $_SESSION['user_path'];
+    $basePath = rtrim($userPath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;   
+    $currentpath = rtrim($absoluteCpath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;  
+    $basePathReal = realpath($basePath);
+    $currentpathReal = realpath($currentpath); 
+    $allowedExtensions = ['jpg', 'jpeg', 'png', 'pdf', 'txt', 'zip'];
+    $maxFileSize = 20 * 1024 * 1024;
+    $checkedfiles = [];
+
+    if(!str_starts_with($currentpathReal, $basePathReal)) {   
+        error_log("Access denied \n", 3, 'debug.log');
+        return false;
+    }
+ 
+    if(!isset($uploadfiles['tmp_name'])) {
+        error_log("Upload error  \n", 3, 'debug.log');
+        return false;
+    }
+
+
+    foreach($uploadfiles['tmp_name'] as $index => $tmpName) 
+    {
+
+        //Ensure that uploaded file has no error 
+        if(!isset($uploadfiles['error'][$index])) {
+            error_log("Upload error \n", 3, 'debug.log');
+            $checkedfiles[$index] = ['success' => false, 'info' => 'Upload error', 'files' => $uploadfiles['name'][$index]];
+            continue;
+        }
+        
+        // 2. Ensure file was uploaded via HTTP POST (Security check)
+        if (!is_uploaded_file($tmpName)) {
+            error_log("Potential file upload attack \n", 3, 'debug.log');
+            $checkedfiles[$index] = ['success' => false, 'info' => 'Potential file upload attack', 'files' => $uploadfiles['name'][$index]];
+            continue;
+        }
+        // 3. Validate file size (e.g., max 20 MB)
+        if ($uploadfiles['size'][$index] > $maxFileSize) {
+            error_log("File is too large \n", 3, 'debug.log');
+           $checkedfiles[$index] = ['success' => false, 'info' => 'File is too large', 'files' => $uploadfiles['name'][$index]];
+            continue;
+        }
+        // 4. Validate file extension using a whitelist
+         $originalName = $uploadfiles['name'][$index] ?? '';  
+         $fileExtension = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+        if (!in_array($fileExtension, $allowedExtensions)) {
+            error_log("Disallowed file type: " . $fileExtension . "\n", 3, 'debug.log');
+           $checkedfiles[$index] = ['success' => false, 'info' => 'Disallowed file type', 'files' => $uploadfiles['name'][$index]];
+            continue;
+        }
+          $checkedfiles[$index] = ['success' => true, 'info' => 'file is checked', 'files' => $uploadfiles['name'][$index]];
+        
+    }
+        return $checkedfiles;
+        
+}
 
 
 
-// Actions: create folder, rename, download, open, move, delete, upload
-
-// function: check_CreateRename
-//            create folder: $absoluteCpath, $requestname, $ID
-
-//  function: check_DownloadOpenDelete
-//            rename:  $absoluteCpath, $requestnewname, $oldname, $ID
-
-// function: check_DownloadOpenDelete
-//           download: $absoluteCpath, $data, $ID
-//           open:     $absoluteCpath, $data, $ID
-//           delete:   $absoluteCpath, $data, $ID
-
-// function: check_Move
-//            move:    $absoluteCpath, $data, $absoluteDpath, $ID
-
-
-// for debugging: tail -f /var/log/apache2/error.log
-//or you can just use here the logs file. 

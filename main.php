@@ -176,7 +176,8 @@ session_start();
         <form method="post" enctype="multipart/form-data">          
           <input type="file" multiple name="uploaded_file[]" value="" id="fileInput" class="visually-hidden">
           <button type="button" class="upload-trigger" id="uploadfile" onclick="document.getElementById('fileInput').click()">📤 files
-            upload</button>
+            upload
+          </button>
         </form>
         <form>
           <button class="selectfiles" id="takeaction_button"
@@ -1164,10 +1165,7 @@ document.addEventListener('DOMContentLoaded', updateDropAreas);
           dropArea.style.backgroundColor = '';
           const data_path = e.dataTransfer.getData('text/plain');
           const path = dropArea.getAttribute('folderpath');
-
-
           move_file(data_path, path);
-
 
         });
       });
@@ -1181,27 +1179,42 @@ document.addEventListener('DOMContentLoaded', updateDropAreas);
  document.getElementById('fileInput').addEventListener('change', function () {
       handleFileUpload(this.files);
     });
-    function handleFileUpload(files) {
+
+
+  function handleFileUpload(files) 
+  {
       //alert('Datei-Upload gestartet' + files.length + ' Datei(en) ausgewählt.');
       const formData = new FormData();
-      const currentPath = '<?php echo $_GET['newpath'] ?? ""; ?>';
-      //formData.append('newpath', currentPath);
-      for (let i = 0; i < files.length; i++) {
+      
+       for (let i = 0; i < files.length; i++) {
+        console.log(files[i]);
         formData.append('uploaded_file[]', files[i]);
       }
-      formData.append('newpath', '<?php echo $_GET['newpath'] ?? ""; ?>');
       loadscreen(formData);
-      fetch('uploadfile.php', { method: 'POST', body: formData })
-        .then(response => response.json())
-        .then(data => {
-          console.log(data);
-          if (data.success) window.location.reload();
-          else if (data.errors) alert(`Fehler:\n${data.errors.join("\n")}`);
-        })
-        .catch(error => {
-          console.error('Fehler bei der Serveranfrage:', error);
-          alert('Fehler beim Upload: ' + error.message);
-        });
+     fetch('uploadfile.php', 
+     { method: 'POST', 
+       body: formData 
+     })
+      .then(response => response.text())
+      .then(text => {
+        console.log('Text:'+text);
+        const data = JSON.parse(text);
+        if (data.success) 
+        {
+         window.location.reload();
+        } else if(data.errors) 
+        {
+          alert(data.errors.join("\n"));  
+          window.location.reload();
+  
+        }
+
+      })
+      .catch(errors => {
+        console.error("Something went wrong"); 
+        
+      });
+
 
     }
 
@@ -1219,7 +1232,7 @@ document.addEventListener('DOMContentLoaded', updateDropAreas);
         }
       };
       xhr.onload = function () { document.getElementById("div_loader").style.display = "none"; };
-      xhr.onerror = function () { alert("Upload fehlgeschlagen"); };
+      //xhr.onerror = function () { alert("Upload fehlgeschlagen"); };
       xhr.send(formData);
     }
 //--------------------------------
