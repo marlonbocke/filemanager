@@ -7,13 +7,12 @@ $cheched = [];
 
 
 if (empty($_FILES['uploaded_file'])) {
-    $response["errors"]= "No files uploaded";
-    $errorReason[]= "check is failed";
-
+    error_log("Soemthing went wrong \n", 3, 'debug.log');
+    $errorReason[]= "no files uploaded";
 }
 
 $absoluteCpath = $_SESSION["newpath"] ?? $_SESSION["baseFileDir"];
-
+error_log("----------------check file-------------------- ". date('d.m.Y H:i:s') . "\n", 3, 'debug.log');
 require_once 'checkpermissions.php';
 $result = checkP_upload($absoluteCpath, $_FILES['uploaded_file']);
 
@@ -22,7 +21,17 @@ if(!isset($result) || $result==false ) {
     $errorReason[]= "check is failed";
 }
 
-//error_log("Data: " . print_r($result, true) . "\n", 3, 'debug.log');
+
+if(is_string($result)) {
+    error_log("$result \n", 3, 'debug.log');
+    $errorReason[] = $result;
+    $response = [
+    'success' => empty($errorReason), 
+    'errors'  => $errorReason
+];
+echo json_encode($response);
+exit;
+}  
 
 foreach ($result as $index => $item) 
 {   
@@ -30,19 +39,16 @@ foreach ($result as $index => $item)
         error_log("error:  ".$item['files'] ."   ".$item['success'] ." \n", 3, 'debug.log');
         $errorReason[] = $item['files'].":" .$item['info'];
 
-    } else {  
-        error_log("cheched:  ".$item['files'] ."   ".$item['success'] ." \n", 3, 'debug.log');
+    } else   
         $cheched[] =  $item['files'];  
-    } 
+     
 }
 
-//error_log("Data: " . print_r($cheched, true) . "\n", 3, 'debug.log');
 foreach ($_FILES['uploaded_file']['tmp_name'] as $index => $tmpName) 
 {
     $originalName = basename($_FILES['uploaded_file']['name'][$index]); 
        
     if(!(in_array($originalName, $cheched))){ 
-        error_log("$originalName     \n", 3, 'debug.log');  
         continue;
      } 
     $targetFile = rtrim($absoluteCpath, '/') . '/' . $originalName;

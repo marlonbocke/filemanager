@@ -718,11 +718,6 @@ session_start();
     <div id="div_loader" class="hidden">
       Data is being loaded, please wait...
       <br>
-      <div class="box">
-        <div id="progressText">0%</div>
-        <div class="bar">
-          <div id="barFill"></div>
-        </div>
       </div>
     </div>
 
@@ -1050,38 +1045,23 @@ session_start();
   
     function move_file(data_path, path) {
 
-     const moveData = [];
-      console.log('MoveData:    '+moveData.length);
-      console.log('data:    '+data.length);
+      const moveData = [];
+      // console.log('MoveData:    '+moveData.length);
+      // console.log('data:    '+data.length);
         
-
-      if(data.length >= 2 )
-      { 
-      console.log("more files are selected");
-      moveData.push(...data);
-
-      for( var i = 0; i < moveData.length; i++)
-      {
-       console.log("moveData :"+moveData[i]);
-      }
-
-      } else if(data_path)
-      
-      {
-        
-        console.log(" a single file is selected");
+      if(data.length >= 2 ) { 
+         moveData.push(...data);
+      } else if(data_path) {
         moveData.push(data_path);
-       for( var i = 0; i < moveData.length; i++)
-        {
-        console.log("moveData :"+moveData[i]);
-        }
-
-      } 
-     
-       console.log('destination ' + path);
+      }      
+      
+      // for( var i = 0; i < moveData.length; i++)
+      // {
+      //  console.log("moveData :"+moveData[i]);
+      // }
 
 
-
+       
       fetch('move_file.php', {
         method: 'POST',
         headers: {
@@ -1092,23 +1072,27 @@ session_start();
           destination: path
         })
       })
-         .then(response => response.json())
-         .then(data => {
-          if(data.error)
-          {
-          console.log('Error: '+ data.error);
-          alert('Error:  '+data.error);
-          return;
-          }     
-          console.log(data.message);
-           window.location.reload();
-        })
-        .catch(error => {
-          console.log(error);
-          alert('Error:' + error);
-      
-        });
+     .then(response => response.json())
+      .then(data => {
+        if(data.success) 
+        {    
+          window.location.reload();
+        } else if(data.canceled)
+        {  
+          alert(data.errors); 
+          window.location.reload();
+        
+        } else
+        {
+          alert(data.errors.join("\n"));
+          window.location.reload(); 
+        }     
 
+      })
+      .catch(errors => {
+        console.error("Something went wrong"); 
+        
+      });
    }
 
 
@@ -1136,9 +1120,10 @@ session_start();
            window.location.reload();
         })
         .catch(error => {
+
           console.log(error);
           alert('Error:  ' + error);
-           //window.location.reload();
+          window.location.reload();   
         });
 
     }
@@ -1190,7 +1175,8 @@ document.addEventListener('DOMContentLoaded', updateDropAreas);
         console.log(files[i]);
         formData.append('uploaded_file[]', files[i]);
       }
-      loadscreen(formData);
+        document.getElementById("div_loader").style.display = "block";
+      //loadscreen(formData);
      fetch('uploadfile.php', 
      { method: 'POST', 
        body: formData 
@@ -1201,13 +1187,17 @@ document.addEventListener('DOMContentLoaded', updateDropAreas);
         const data = JSON.parse(text);
         if (data.success) 
         {
+         document.getElementById("div_loader").style.display = "none"; 
+         alert("all files uploaded") 
          window.location.reload();
         } else if(data.errors) 
         {
+           document.getElementById("div_loader").style.display = "none";
           alert(data.errors.join("\n"));  
           window.location.reload();
   
-        }
+        }  
+        
 
       })
       .catch(errors => {
@@ -1219,22 +1209,22 @@ document.addEventListener('DOMContentLoaded', updateDropAreas);
     }
 
     //made with Google AI
-    function loadscreen(formData) 
-    {
-      const xhr = new XMLHttpRequest();
-      xhr.open("POST", "uploadfile.php", true);
-      document.getElementById("div_loader").style.display = "flex";
-      xhr.upload.onprogress = function (e) {
-        if (e.lengthComputable) {
-          const percent = Math.round((e.loaded / e.total) * 100);
-          document.getElementById("progressText").innerText = percent + "%";
-          document.getElementById("barFill").style.width = percent + "%";
-        }
-      };
-      xhr.onload = function () { document.getElementById("div_loader").style.display = "none"; };
-      //xhr.onerror = function () { alert("Upload fehlgeschlagen"); };
-      xhr.send(formData);
-    }
+    // function loadscreen(formData) 
+    // {
+    //   const xhr = new XMLHttpRequest();
+    //   xhr.open("POST", "uploadfile.php", true);
+    //   document.getElementById("div_loader").style.display = "flex";
+    //   xhr.upload.onprogress = function (e) {
+    //     if (e.lengthComputable) {
+    //       const percent = Math.round((e.loaded / e.total) * 100);
+    //       document.getElementById("progressText").innerText = percent + "%";
+    //       document.getElementById("barFill").style.width = percent + "%";
+    //     }
+    //   };
+    //   xhr.onload = function () { document.getElementById("div_loader").style.display = "none"; };
+    //   //xhr.onerror = function () { alert("Upload fehlgeschlagen"); };
+    //   xhr.send(formData);
+    // }
 //--------------------------------
   </script>
 
@@ -1315,16 +1305,16 @@ document.addEventListener('DOMContentLoaded', updateDropAreas);
 // Posted by Tom Wadley, modified by community. See post 'Timeline' for change history
 // Retrieved 2026-09-18, License - CC BY-SA 4.0
 
-const array = [2, 5, 9];
+// const array = [2, 5, 9];
 
-console.log(array);
+// console.log(array);
 
-const index = array.indexOf(5);
-if (index > -1) { // only splice array when item is found
-  array.splice(index, 1); // 2nd parameter means remove one item only
-}
+// const index = array.indexOf(5);
+// if (index > -1) { // only splice array when item is found
+//   array.splice(index, 1); // 2nd parameter means remove one item only
+// }
 
-// array = [2, 9]
-console.log(array);
+// // array = [2, 9]
+// console.log(array);
 
 //https://stackoverflow.com/questions/22938341/count-the-number-of-checked-checkboxes-in-html -->

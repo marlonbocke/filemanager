@@ -66,7 +66,8 @@ function checkP_Move($absoluteCpath,  $dataArray, $absoluteDpath)
     $basePath = rtrim($userPath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;      //provided with ChatGPT 
     $basePathReal = realpath($basePath);
 
-    $checkedCurrentPaths = [];
+    $checkCurrentPaths = [];
+    $checked = [];
 
     //check pathDestination 
     $pathDestination = rtrim($absoluteDpath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;    
@@ -74,44 +75,54 @@ function checkP_Move($absoluteCpath,  $dataArray, $absoluteDpath)
        
     if (!str_starts_with($pathDestinationReal, $basePathReal)) {
         error_log("pathDestination is not part of the base directory \n", 3, 'debug.log');
-        return false;
+        $error = "pathDestination is not part of the base directory";
+        return $error;
     }
         
     if (!file_exists($pathDestinationReal)) {
-         error_log("pathDestination is not existing \n", 3, 'debug.log');
-        return false;
+        error_log("pathDestination is not existing \n", 3, 'debug.log');
+        $error = "pathDestination is not existing";
+        return $error;
     }
 
     if (!is_dir($pathDestinationReal)) {
-         error_log("pathDestination is not a directory \n", 3, 'debug.log');
-        return false;    
+        error_log("pathDestination is not a directory \n", 3, 'debug.log');
+        $error = "pathDestination is not a directory";
+        return $error;    
     }
  
     //check currentpath
     $currentpath = rtrim($absoluteCpath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
     $currentpathReal = realpath($currentpath);  
-    if (!str_starts_with($currentpathReal, $basePrefix)) {
+    
+    if (!str_starts_with($currentpathReal, $basePathReal)) {
         error_log("currentpath is not part of the base directory \n", 3, 'debug.log');
-        return false;
+         $error = "currentpath is not part of the base directory";
+        return $error;      
+      
     }
+    
     //provide the absolute paths for each data item
     foreach ($dataArray as $i => $item) 
-    {   
-        if (file_exists($pathDestinationReal . $item)) {   
+    {
+        if (file_exists($pathDestinationReal .DIRECTORY_SEPARATOR. $item)) {   
              error_log("filename already exists \n", 3, 'debug.log');
-            return false;
+             $checked[$i] = ['success' => false, 'info' => 'filename already exists', 'files' => $item];
+             continue;
         }
 
-        if (!file_exists($currentpathReal.DIRECTORY_SEPARATOR. $item)) {   
+        if (!file_exists($currentpathReal .DIRECTORY_SEPARATOR. $item)) {   
               error_log("file or dir is not existing \n", 3, 'debug.log');
-            return false;
+               $checked[$i] = ['success' => false, 'info' => 'file or dir is not existing', 'files' => $item];  
+              continue;
         }
-        $checkedCurrentPaths[$i] = $currentpathReal .DIRECTORY_SEPARATOR. $item;
+        $checkCurrentPaths[$i] = $currentpathReal .DIRECTORY_SEPARATOR. $item;   
+        $checked[$i] = ['success' => true, 'info' => 'file is checked', 'files' => $checkCurrentPaths[$i]];  
        
     }
 
     $checkedDestinationPath = $pathDestinationReal;
-    return [$checkedDestinationPath, $checkedCurrentPaths];
+    return [$checkedDestinationPath, $checked];
 }
 
 
@@ -222,15 +233,18 @@ function checkP_upload($absoluteCpath, $uploadfiles)
     $allowedExtensions = ['jpg', 'jpeg', 'png', 'pdf', 'txt', 'zip'];
     $maxFileSize = 20 * 1024 * 1024;
     $checkedfiles = [];
+    
 
     if(!str_starts_with($currentpathReal, $basePathReal)) {   
         error_log("Access denied \n", 3, 'debug.log');
-        return false;
+        $error = "Access denied";     
+        return $error;
     }
  
     if(!isset($uploadfiles['tmp_name'])) {
         error_log("Upload error  \n", 3, 'debug.log');
-        return false;
+        $error = "Upload error";
+        return $error;
     }
 
 
