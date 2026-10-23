@@ -10,7 +10,7 @@ README written with the assistance of GitHub Copilot.
 - MySQL-backed login
 - Browse, upload, download, preview, rename, move, and delete files
 - Create and manage folders
-- Experimental two-factor authentication
+- Experimental two-factor authentication (developed using AI)
 
 Features are still being developed and have not all been tested.
 
