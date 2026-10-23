@@ -1,63 +1,91 @@
 <?php 
+ error_log("----------------deleteMorefile-------------------". date('d.m.Y H:i:s') . "\n", 3, 'debug.log');   
+header('Content-Type: application/json');
 session_start();    //is important to read the sessions data 
 $logFile = 'debug.log';
+$errorReason = [];
+$cheched = [];
+
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    echo json_encode(['error' => 'Something went wrong. Please try again later.']);
-    exit;
+    $errorReason[] = "Something went wrong. Please try again later.";
 }
 
-//use SpomkyLabs\Pki\ASN1\Component\Length;
 $json = file_get_contents('php://input');
 $jsondata = json_decode($json, true);
-$deletefiles = $jsondata['files'];
 
+
+if (!isset($jsondata['files'])) {
+    $errorReason[] = "Something went wrong. Please try again later.";  
+}
+
+$deletefiles = $jsondata['files'];
+$absoluteCpath = $_SESSION["newpath"] ?? $_SESSION["baseFileDir"];
 
 foreach($deletefiles as $i => $item){
   $data[$i] = basename($item);
  } 
 
- if (!is_array($data)) {
-    echo json_encode(['error' => 'data is not a vaid array']);
-    exit;
-}
-$absoluteCpath = $_SESSION["newpath"] ?? $_SESSION["baseFileDir"];
 
 require_once 'checkpermissions.php';
- $realFileArray = checkP_DownloadOpenDelete($absoluteCpath, $data);
+ $result = checkP_DownloadOpenDelete($absoluteCpath, $data);
 
- if(!isset($realFileArray) || $realFileArray ==false) {
-   $logLines = file($logFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    $lastError = !empty($logLines) ? end($logLines) : 'umknown error';
-    echo json_encode(['error' => $lastError]);
-     exit;
-}
+ 
 
-if (!is_array($realFileArray)) {
-    echo json_encode(['error' => 'Is not vaid array']);
-    exit;
+ if(!isset($result) || $result ==false) {
+    error_log("result is false \n", 3, 'debug.log');
+    $errorReason[]= "check is failed";
 }
 
 
-try {              
-    foreach ($realFileArray as $i => $file) {
+if(!(is_array($result))) {
+    error_log("result:  $result \n", 3, 'debug.log');
+    $errorReason[] = $result;
+    $response = [
+    'success' => false,
+    'errors'  => $errorReason
+];
+echo json_encode($response);
+exit;
+}  
+
+foreach ($result as $index => $item) 
+{   
+    if($item['success'] == false) {
+        
+        error_log("error:  ".$item['files'] ."   ".$item['info'] ." \n", 3, 'debug.log');
+        $errorReason[] = $item['files'].": " .$item['info'];
+
+    } else   
+         $checked[] =  $item['files'];  
+          error_log("checked: ".$item['files']." \n", 3, 'debug.log');
     
-    if (is_file($file)) {
+}
+
+
+foreach ($checked as $i => $file) 
+{
+    error_log("file: ".$file ." \n", 3, 'debug.log');
+  if (is_file($file)) {
       
     if(!unlink($file)){
-       echo json_encode(['error' => 'Can not delete']);
-        exit;
+        error_log("failed to delete". $file . "\n", 3, 'debug.log');   
+        $errorReason[] = "failed to delete". $file; 
       }
 
-    }else if (is_dir($file)) {
+  } else if (is_dir($file)) {
       deleteDirectory($file);
-    }
-    }
-
-    echo json_encode(['message' => 'Files delted successfully.']);   //this also applies true, if no files have been deleted  
-} catch (Throwable $e) {                
-    echo json_encode(['message' => $e->getMessage()]);    
+  }
 }
+
+$response = [
+    'success' => empty($errorReason), 
+    'canceled' => false,
+    'errors'  => $errorReason
+];
+
+echo json_encode($response);
+exit;
 
 
 function deleteDirectory( String $realFileArray)      //Function to delete a directory and its contents recursively

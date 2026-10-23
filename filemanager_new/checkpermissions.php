@@ -7,7 +7,8 @@ function checkP_DownloadOpenDelete($absoluteCpath, $data)
     error_log("----------------checkAccess--------------------". date('d.m.Y H:i:s') . "\n", 3, 'debug.log');   
     if (!isset($_SESSION["user_path"])) {
         error_log("Seession is not set \n", 3, 'debug.log');
-        return false;
+        $error = "Seession is not set";
+        return $error;    
     } 
         $userPath = $_SESSION['user_path'];
         $basePath = rtrim($userPath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;      //provided with ChatGPT 
@@ -19,25 +20,28 @@ function checkP_DownloadOpenDelete($absoluteCpath, $data)
 
         if(!str_starts_with($currentpathReal, $basePathReal)) {   //check if the path is within the user's allowed path
             error_log("pathDestination is not part of the base directory \n", 3, 'debug.log');
-            return false;
+            $error = "pathDestination is not part of the base directory";
+            return $error;    
         }
 
         if(is_array($data))
         {
           $realFileArray = [];
+          $checked = [];
          
           foreach($data as $i => $item)
            {
             $realFileArray[$i] = $currentpathReal . DIRECTORY_SEPARATOR . $item;
 
             if(!file_exists($realFileArray[$i])) {   //check if the file or directory exists
-            error_log("$realFileArray[$i] \n", 3, 'debug.log');                  
-             error_log("file or dir is not existsing \n", 3, 'debug.log');
-            return false;
+                error_log("$realFileArray[$i] \n", 3, 'debug.log');                  
+                error_log("file or dir is not existsing \n", 3, 'debug.log');
+                $checked[$i] = ['success' => false, 'info' => 'file or dir is not existing', 'files' => $realFileArray[$i]];     
+                continue;
             }
-
+            $checked[$i] = ['success' =>  true, 'info' => 'file is checked', 'files' => $realFileArray[$i]]; 
            } 
-           return $realFileArray;  
+           return $checked;  
       
         } else 
         {
@@ -60,7 +64,8 @@ function checkP_Move($absoluteCpath,  $dataArray, $absoluteDpath)
    error_log("----------------checkAccess-------------------- ". date('d.m.Y H:i:s') . "\n", 3, 'debug.log');
     if (!isset($_SESSION["user_path"])) {
         error_log("Seession is not set \n", 3, 'debug.log');
-        return false;
+        $error = "Seession is not set";
+        return $error;
     }
     $userPath = $_SESSION['user_path'];
     $basePath = rtrim($userPath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;      //provided with ChatGPT 

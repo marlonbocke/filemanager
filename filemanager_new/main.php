@@ -1099,32 +1099,65 @@ session_start();
 
 
    function  func_deletefiles() {
-    console.log("deletefiles");
+    
 
     if (confirm("Press a button!\nEither OK or Cancel.")) {
-      
+    
       fetch('deleteMorefiles.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          files: data 
-      
+           files: data 
+
         })
       })
-         .then(response => response.json())
-         .then(dataOut => {
-          console.log(dataOut.message);
-          //alert('Feedback:  '+dataOut.message);
-           window.location.reload();
-        })
-        .catch(error => {
+     .then(response => response.json())
+      .then(data => {
+        if(data.success) 
+        {    
+          window.location.reload();
+        } else if(data.canceled)
+        {  
+          alert(data.errors); 
+          window.location.reload();
+        
+        } else
+        {
+          alert(data.errors.join("\n"));
+          window.location.reload(); 
+        }     
 
-          console.log(error);
-          alert('Error:  ' + error);
-          window.location.reload();   
-        });
+      })
+      .catch(errors => {
+        console.error("Something went wrong"); 
+        
+      });
+
+
+      // fetch('deleteMorefiles.php', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   },
+      //   body: JSON.stringify({
+      //     files: data 
+      
+      //   })
+      // })
+      //    .then(response => response.json())
+      //    .then(dataOut => {
+      //     console.log(dataOut.message);
+      //     //alert('Feedback:  '+dataOut.message);
+      //      window.location.reload();
+      //   })
+      //   .catch(error => {
+
+      //     console.log(error);
+      //     alert('Error:  ' + error);
+      //     window.location.reload();   
+      //   });
 
     }
 }
