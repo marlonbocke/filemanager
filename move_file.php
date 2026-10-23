@@ -1,16 +1,17 @@
 <?php
 header('Content-Type: application/json');
 session_start();
-$logFile = 'debug.log';   
-$json = file_get_contents('php://input');
-$data = json_decode($json, true);
+$logFile = 'debug.log'; 
 $errorReason = [];
 $cheched = [];
-
-
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     $errorReason[] = "Something went wrong. Please try again later.";
 }
+
+$json = file_get_contents('php://input');
+$data = json_decode($json, true);
+
+
 
 if (!isset($data['destination']) || !is_array($data['source'])) {
     $errorReason[] = "Something went wrong. Please try again later.";  
@@ -20,15 +21,14 @@ $array_source = $data['source'];
 
 $absoluteCpath = $_SESSION["newpath"] ?? $_SESSION["baseFileDir"];
 
-if(!realpath($data['destination']))
-   {
+if(!realpath($data['destination'])) {
     $relativDpath = $data['destination'];    
     $absoluteDpath = $absoluteCpath. DIRECTORY_SEPARATOR . $relativDpath; 
-   } else  
+} else  
     $absoluteDpath = $data['destination'];
 
 
-foreach($array_source as $i => $item){
+foreach($array_source as $i => $item) {
   $dataArray[$i] = basename($item);
  } 
 
@@ -37,7 +37,7 @@ require_once 'checkpermissions.php';
  $result = checkP_Move($absoluteCpath, $dataArray, $absoluteDpath);
 
 if(!isset($result) || $result == false){
-log("result is false \n", 3, 'debug.log');
+error_log("result is false \n", 3, 'debug.log');
 $errorReason[]= "check is failed";
 }
 
