@@ -3,13 +3,15 @@ session_start();
 $logFile = 'debug.log';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(403);
-    exit('Forbidden');
+     $_SESSION['error'] = "Some error occurred while processing the request.";
+    header('Location: main.php'); // Redirect to main.php without any path
+    exit;
 }
 
 if (empty($_POST['file']) || empty($_POST['ID'])|| empty($_POST['button'])) {
-    http_response_code(400);
-    exit('Bad Request');
+    $_SESSION['error'] = "Some error occurred while processing the request.";
+    header('Location: main.php'); // Redirect to main.php without any path
+    exit;
 }
 
 $data = basename($_POST['file'] ?? '');
@@ -22,18 +24,27 @@ $realFile = checkP_DownloadOpenDelete($absoluteCpath, $data);
 $filename = basename($realFile);
 
 if(!isset($realFile) || $realFile==false) {
-    $logLines = file($logFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    $lastError = !empty($logLines) ? end($logLines) : 'umknown error';
-    exit('Forbidden' .$lastError);
+    $_SESSION['error'] = "Some error occurred while processing the request.";
+    header('Location: main.php');
+    exit;
 }
+
+if (!(is_dir($realFile) || is_file($realFile)) ) {
+    $_SESSION['error'] = $realFile;
+    header('Location: main.php'); // Redirect to main.php without any path
+    exit;
+}
+
+
  
 if ($button == 'openfile' ) {
     handlePreview($realFile, $filename);
 } elseif ($button == 'openfileWindow') {
     handleWindow($realFile, $filename);   
 } else {
-    http_response_code(400);
-    exit('Ungültige Anfrage: ' . htmlspecialchars($button));
+    $_SESSION['error'] = "Some error occurred while processing the request.";
+    header('Location: main.php'); // Redirect to main.php without any path
+    exit;
 }
 
 
@@ -66,10 +77,15 @@ function handlePreview($realFile, $filename)
             unset($_SESSION['filemanager_image']);
         }
         $_SESSION['filemanager_image'] = $realFile; 
+      
+    } else  {
+
+        $_SESSION['error'] = "Some went wrong.";
+        header('Location: main.php'); // Redirect to main.php without any path
+        exit;
+
     }   
-    else {
-    exit("Something went wrong");
-    }    
+
     header('Location: main.php');
     exit;
 
@@ -103,8 +119,10 @@ function handleWindow($realFile, $filename)
         exec("php /var/www/html/filemanager/open_pdf.php > /dev/null 2>&1 &");  
     }   
     else {
-    exit("Something went wrong");
-    }    
+        $_SESSION['error'] = "Some went wrong.";
+        header('Location: main.php');
+        exit;
+    }
 
     header('Location: main.php');
     exit;

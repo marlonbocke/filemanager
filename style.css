@@ -109,6 +109,28 @@ body {
   padding: 30px 40px;
 }
 
+
+.error-message-window {
+  position: fixed;
+  top: 50%;
+  left: 50%; 
+
+  transform: translateX(-50%) translateY(-50%);
+  background-color: #f44336; /* Red background */
+  color: white; /* White text */
+  padding: 30px 40px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  z-index: 1000; /* Ensure it appears above other elements */
+}
+
+
+.close-error-message_button {
+  position: fixed;
+  top: 60%;
+  right: 50%;
+}
+
 @media (max-width: 768px) {
   .content {
     padding: 20px;

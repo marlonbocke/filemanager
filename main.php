@@ -192,8 +192,9 @@ session_start();
             type="button" onclick="removealldata()"> Cancel </button>
         </form>
       </div>  
-    <?php endif; ?>   
-
+    <?php endif; ?>
+    
+    
     <nav>
       <span>Current Directory:</span>
         <span class="droparea" id="droparea_0" folderpath="<?php echo htmlspecialchars($_SESSION['baseFileDir'], ENT_QUOTES, 'UTF-8'); ?>" ></form>
@@ -245,6 +246,7 @@ session_start();
             <button type="submit" name="delete_image_file"
                 class="preview-button-danger">delete</button>
           </form>
+          
           <form method="post" action="download.php">
             <input type="hidden" name="file" value="<?php echo htmlspecialchars($name, ENT_QUOTES, 'UTF-8'); ?>">
             <input type="hidden" name="ID" value="539485786049387579038">
@@ -342,12 +344,19 @@ session_start();
           <input type="hidden" name="type" value="file">
           <input type="hidden" name="condition" value="from_pdf_display">
         </form>
+        
         <form method="post" action="delete.php">
           <input type="hidden" name="delete" value="<?php echo htmlspecialchars($name, ENT_QUOTES, 'UTF-8'); ?>">
           <input type="hidden" name="condition" value="from_image_display">
           <button type="submit" name="delete_image_file"
             class="preview-button-danger">Löschen</button>
         </form>
+          <!-- <button type="button" name="delete_image_file"
+            class="preview-button-danger btn-delete" onclick="func_deletefiles(<?php //echo htmlspecialchars(json_encode($name), ENT_QUOTES, 'UTF-8'); ?>)">Löschen</button> -->
+
+
+
+
         <form method="post" action="download.php">
           <input type="hidden" name="file" value="<?php echo htmlspecialchars($name, ENT_QUOTES, 'UTF-8'); ?>">
           <input type="hidden" name="ID" value="539485786049387579038">
@@ -678,10 +687,15 @@ session_start();
         <button class="items_buttons" type="submit"><span>⬇️</span> Download</button>
       </form>
 
-      <form method="POST" action="delete.php" id="delete_form_directory">
+      <!-- <form method="POST" action="delete.php" id="delete_form_directory">
         <input type="hidden" name="delete" value="">
-        <button class="items_buttons" type="submit"><span>🗑️</span> Delete</button>
-      </form>
+        <button class="items_buttons"  type="submit"><span>🗑️</span> Delete</button>
+      </form> -->
+     
+      <button class="items_buttons" id="delete_form_directory" onclick=" 
+      func_deletefiles(document.getElementById('delete_form_directory').value)"><span>🗑️</span> Delete</button>
+      
+
       <button
         class="items_buttons"
         id="move_to_folder_button"
@@ -709,11 +723,23 @@ session_start();
       move_file(document.getElementById('movedata_item').value, document.querySelector('input[name=target_folder]:checked').value)">
       <span>➡️</span> Move Here
       </button>
-
       <button class="movedataWindow_buttons" type="button" name="closeWindow_button" value="movedataView" onclick="close_moveRename_Options()">
       <span>✕</span>close
       </button>
     </div>
+
+      <?php if (isset($_SESSION['error'])): ?>
+      <!-- <div class="error-message-window"> -->
+        <?php echo htmlspecialchars($_SESSION['error'], ENT_QUOTES, 'UTF-8'); ?>
+          <script>
+            alert("<?php echo htmlspecialchars($_SESSION['error'], ENT_QUOTES, 'UTF-8'); ?>");
+          </script>
+        <!-- <button class="close-error-message" onclick="this.parentElement.style.display='none';">Close</button> -->
+      <!-- </div> -->
+      <?php unset($_SESSION['error']); ?>
+    <?php endif; ?>
+      
+    
 
     <div id="div_loader" class="hidden">
       Data is being loaded, please wait...
@@ -729,6 +755,18 @@ session_start();
 
         
 <script>
+
+
+//    document.addEventListener('click', function(event) {
+//     if (event.target.classList.contains('btn-delete')) {
+//         const filename = event.target.dataset.filename;
+//         func_deletefiles(filename);
+//     }
+// });
+
+
+
+
 // alert("Please note that the file manager is still in development. Some features may not work as expected. If you encounter any issues, please report them to the development team. Thank you for your understanding and support!");
 // alert("Rename functionality is not working correctly. Please improve rename.php before you improve other features.");
   let currentfilename;
@@ -817,7 +855,12 @@ session_start();
         file_options.style.display='none';
         document.getElementById('rename_form_directory').querySelector('input[name="request_renamedir"]').value = filename;
         document.getElementById('download_form_directory').querySelector('input[name="file"]').value = filename;
-        document.getElementById('delete_form_directory').querySelector('input[name="delete"]').value = filename;
+        
+        //document.getElementById('delete_form_directory').querySelector('input[name="delete"]').value = filename;
+        document.getElementById('delete_form_directory').value = filename;
+        
+
+
         document.getElementById('move_to_folder_button').value = filename;
         dir_options.style.display = 'block';
         currentMenu = dir_options;
@@ -938,12 +981,13 @@ session_start();
         const items = document.querySelectorAll('.item');
         let data = [];    
         
-        items.forEach(item => {
-        item.addEventListener('mouseover', (event) => {
-        event.currentTarget.style.backgroundColor = '#d4c0c0';
-        const row = event.currentTarget.closest('tr');              
-        const rowdiv_id = row.querySelector('div[name="checkbox_div"]');
-        const checkbox = document.getElementById('checkbox_'+rowdiv_id.id);
+        items.forEach(item => 
+        {
+          item.addEventListener('mouseover', (event) => {
+          event.currentTarget.style.backgroundColor = '#d4c0c0';
+          const row = event.currentTarget.closest('tr');              
+          const rowdiv_id = row.querySelector('div[name="checkbox_div"]');
+          const checkbox = document.getElementById('checkbox_'+rowdiv_id.id);
 
         checkbox.style.display='block';  
         select(checkbox);
@@ -1098,18 +1142,35 @@ session_start();
 
 
 
-   function  func_deletefiles() {
-    
+   function func_deletefiles(selectfile) {
+
+    const deleteData = [];
+ 
+    console.log("selectfile :"+selectfile);
+
+      if(data.length >= 2 ) { 
+         deleteData.push(...data);
+      } else if(selectfile) {
+        
+        deleteData.push(selectfile);
+      }      
+      
+      for( var i = 0; i < deleteData.length; i++)
+      {
+       console.log("deleteData :"+deleteData[i]);
+      }
+
 
     if (confirm("Press a button!\nEither OK or Cancel.")) {
     
+
       fetch('deleteMorefiles.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-           files: data 
+           files: deleteData 
 
         })
       })
@@ -1134,31 +1195,6 @@ session_start();
         console.error("Something went wrong"); 
         
       });
-
-
-      // fetch('deleteMorefiles.php', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   },
-      //   body: JSON.stringify({
-      //     files: data 
-      
-      //   })
-      // })
-      //    .then(response => response.json())
-      //    .then(dataOut => {
-      //     console.log(dataOut.message);
-      //     //alert('Feedback:  '+dataOut.message);
-      //      window.location.reload();
-      //   })
-      //   .catch(error => {
-
-      //     console.log(error);
-      //     alert('Error:  ' + error);
-      //     window.location.reload();   
-      //   });
-
     }
 }
 </script>
@@ -1221,7 +1257,6 @@ document.addEventListener('DOMContentLoaded', updateDropAreas);
         if (data.success) 
         {
          document.getElementById("div_loader").style.display = "none"; 
-         alert("all files uploaded") 
          window.location.reload();
         } else if(data.errors) 
         {

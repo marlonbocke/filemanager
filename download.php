@@ -5,14 +5,16 @@ $logLines = file($logFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 $lastError = !empty($logLines) ? end($logLines) : 'umknown error';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(403);
-    exit('Forbidden');
-}
+     $_SESSION['error'] = "Some error occurred while processing the request.";
+    header('Location: main.php'); // Redirect to main.php without any path
+    }
+
 
 
 if (empty($_POST['file']) || empty($_POST['ID'])) {
-    http_response_code(400);
-    exit('Bad Request');
+    $_SESSION['error'] = "Some error occurred while processing the request.";
+    header('Location: main.php'); // Redirect to main.php without any path
+    exit;
 }
 
 $absoluteCpath = $_SESSION["newpath"] ?? $_SESSION["baseFileDir"];
@@ -24,31 +26,42 @@ $realFile = checkP_DownloadOpenDelete($absoluteCpath, $data);
 
 
 if(!isset($realFile) || $realFile==false) {
-    http_response_code(403);
-    exit('Forbidden' .$lastError);
+    $_SESSION['error'] = "Some error occurred while processing the request.";
+    header('Location: main.php'); // Redirect to main.php without any path
 }
 
- if (is_dir($realFile)) 
-{   
+
+if (!(is_dir($realFile) || is_file($realFile)) ) {
+    $_SESSION['error'] = $realFile;
+    header('Location: main.php'); // Redirect to main.php without any path
+}
+
+
+
+
+if (is_dir($realFile)) {   
     $userPath = $absoluteCpath.'/';
 
     //step1: create a zip file
     $zip = new ZipArchive();
     $zipFilename = $userPath . 'download_' . time() . '.zip';
     if ($zip->open($zipFilename, ZipArchive::CREATE) !== TRUE) {
-    exit("Can not create $zipFilename .");
-        } 
+        $_SESSION['error'] = "Can not create $zipFilename .";
+        header('Location: main.php');
+        exit;
+    }
 
     //step2: send the zip file to the function
-   $added = addFilesToZip($realFile, $zip);
+    $added = addFilesToZip($realFile, $zip);
     $closed = $zip->close();
- 
+
     //step4: check the zip file
     if (!$added || !$closed) 
     {
         error_log('ZIP-Erstellung fehlgeschlagen: ' . $zip->getStatusString());
-        http_response_code(500);
-        exit('ZIP konnte nicht erstellt werden.');
+        $_SESSION['error'] = "ZIP creation failed: " . $zip->getStatusString();
+        header('Location: main.php');
+
     } else 
     {   
         //step5: download the zip file to the client
@@ -70,10 +83,10 @@ if(!isset($realFile) || $realFile==false) {
         readfile($filePath);
         unlink($filePath);
         exit;
-}
+    }
           
-} else
-{
+} else {
+
     $name=basename($realFile);
     header('Content-Type: image/' . pathinfo($name, PATHINFO_EXTENSION));
     header('Content-Disposition: attachment; filename="' . $name . '"');
@@ -83,11 +96,12 @@ if(!isset($realFile) || $realFile==false) {
     readfile($realFile);
     exit;
 
- }     
+}     
 
 
-    //step:3 insert all data into the zip file
-    function addFilesToZip($realFile,  &$zip, $parentFolder = '') {
+//step:3 insert all data into the zip file
+function addFilesToZip($realFile,  &$zip, $parentFolder = '') 
+{
     $handle = opendir($realFile);
     if (!$handle) {
         //echo('Something went wrong'. $realFile);

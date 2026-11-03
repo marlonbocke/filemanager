@@ -5,58 +5,69 @@ $logFile = 'debug.log';
 // Handling deletion requests
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(403);
-    exit('Forbidden');
+  $_SESSION['error'] = "Some error occurred while processing the request.";
+  header('Location: main.php'); // Redirect to main.php without any path
+  exit;  
+    
 }
 
 if (!isset($_POST['delete'] )) {
-  http_response_code(400);
+  $_SESSION['error'] = "Some error occurred while processing the request.";
+  header('Location: main.php'); // Redirect to main.php without any path
   exit('Bad Request');
 } 
 
-    $absoluteCpath = $_SESSION["newpath"] ?? $_SESSION["baseFileDir"];
-    $data = basename($_POST['delete'] ?? '');
-    require_once 'checkpermissions.php';
-    $realFile = checkP_DownloadOpenDelete($absoluteCpath, $data);
+$absoluteCpath = $_SESSION["newpath"] ?? $_SESSION["baseFileDir"];
+$data = basename($_POST['delete'] ?? '');
+
+error_log("delete_basename: " . $data, 3, 'debug.log');
+require_once 'checkpermissions.php';
+$realFile = checkP_DownloadOpenDelete($absoluteCpath, $data);
+error_log("-----------chhecked------------------------ \n", 3, 'debug.log');
 
 
-if (!$realFile) {
-   $logLines = file($logFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-   $lastError = !empty($logLines) ? end($logLines) : 'umknown error';
-    exit('Forbidden' .$lastError);
+
+if (!(is_dir($realFile) || is_file($realFile)) ) {
+  error_log("is not a file or directory: " . $realFile . "\n", 3, 'debug.log');
+  $_SESSION['error'] = $realFile;
+  header('Location: main.php'); // Redirect to main.php without any path
+  exit;
+
 }
 
-   if(is_file($realFile)) 
-    {
-
-      if (unlink($realFile)) {
-           echo '<script>console.log("File deleted successfully.");</script>';
-           goback();
-      } else {
-          echo '<script>console.log("Error deleting file.");</script>';
-          exit;
-      }
-    } elseif(is_dir($realFile)) 
-    {
-
-      if (deleteDirectory($realFile)) {
-          echo '<script>console.log("Directory deleted successfully.");</script>';
-          goback();
-       } else {
-          echo '<script>console.log("Error deleting directory.");</script>';
-           exit;
-          }
-
-      } else {
-          echo '<script>console.log("The specified path is neither a file nor a directory.");</script>';
-          exit;
-     }
 
 
+if(is_file($realFile)) {
+
+  if (unlink($realFile)) {
+      echo '<script>console.log("File deleted successfully.");</script>';
+      goback();
+  } else {
+      echo '<script>console.log("Error deleting file.");</script>';
+      exit;
+  }
+
+} elseif(is_dir($realFile)) {
+
+  error_log("is directory: " . $realFile . "\n", 3, 'debug.log');
+  if (deleteDirectory($realFile)) {
+    echo '<script>console.log("Directory deleted successfully.");</script>';
+    goback();
+  
+    } else {
+      echo '<script>console.log("Error deleting directory.");</script>';
+      exit;  
+   }
+
+} else {
+      echo '<script>console.log("The specified path is neither a file nor a directory.");</script>';
+      exit;
+}
 
 
 function deleteDirectory($delete_dir)
 {
+  error_log("Function deleteDirectory called with argument: " . $delete_dir . "\n", 3, 'debug.log');
   if (!is_dir($delete_dir)) {
     
     return false;
@@ -73,8 +84,6 @@ function deleteDirectory($delete_dir)
       deleteDirectory($itemPath); // Rekursive Löschung für Unterverzeichnisse
     } else {
       unlink($itemPath); // Datei löschen
-
-  
     }
   }
   rmdir($delete_dir); // Leeres Verzeichnis löschen
