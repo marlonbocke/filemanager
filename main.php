@@ -745,9 +745,6 @@ session_start();
       Data is being loaded, please wait...
       <br>
       </div>
-    </div>
-
-    </div>
     </body>
 
     </html>
