@@ -1,2 +1,5 @@
+# Sensible Konfiguration und Logs ignorieren
 /config/config.json
 /debug.log
+.DS_Store
+*.log

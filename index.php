@@ -5,7 +5,7 @@ $content = file_get_contents($file);
 
 if(!file_exists($file))
 {
-  header("Location: /filemanager_new/config/config.html");
+  header("Location: /config/config.html");
    echo "file was not found";
    exit;
     
@@ -13,11 +13,11 @@ if(!file_exists($file))
 
 if(!json_validate($content))
  {
-    header("Location: /filemanager_new/config/config.html");
+    header("Location: /config/config.html");
    exit;
  }   
 
 
-header("Location: /filemanager_new/login.html");
+header("Location: login.html");
 exit;
 ?>

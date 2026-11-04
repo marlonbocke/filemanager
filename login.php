@@ -78,7 +78,7 @@ if ($result->num_rows > 0)
         $_SESSION["loginID"] = $row["loginID"];
         $userpath = $row["userpath"];
         $_SESSION['user_path'] = $userpath;
-        header("Location: /filemanager_new/main.php");
+        header("Location: main.php");
         exit;
 
     } else {
