@@ -16,8 +16,7 @@ if($_POST['newpath'] && $newpath == '') {
     $_SESSION["newpath"] = rtrim($accumulatedPath, '/');
    
 } else {
-    $rnp2= $_POST["newpath"];    
-   //$_SESSION['newpath'] = rtrim($rnp2, '/');    
+    $rnp2= $_POST["newpath"];     
    $_SESSION['newpath'] = rtrim($rnp2); 
    
   

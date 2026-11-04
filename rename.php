@@ -13,10 +13,10 @@ require_once 'checkpermissions.php';
 $result = checkP_rename($absoluteCpath, $newnamerequest, $oldname);
 
 if(!isset($result) || $result==false) {
-    http_response_code(403);
-    $logLines = file($logFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    $lastError = !empty($logLines) ? end($logLines) : 'umknown error';
-    echo "<script>alert('$lastError');window.location.href = 'main.php';</script>";
+  $_SESSION['error'] = "Error: Some error occurred while processing the request.";
+  header('Location: main.php'); 
+  exit;
+  
 }
 
 
@@ -25,8 +25,10 @@ $checkedOldname = $result[1];
 
 
 if(!isset($checkedNewname) && !isset($checkedOldname)) {
-  echo "<script>alert('Error: renamefile or renamedir not set.');</script>";
+  $_SESSION['error'] = $result;
+  header('Location: main.php'); 
   exit;
+
 }
 
 if($_POST['type'] === 'directory') 
@@ -36,11 +38,13 @@ if($_POST['type'] === 'directory')
     
     if (!rename($checkedOldname, $checkedNewname)) {
       $error = error_get_last();
-      echo "<script>alert('Error renaming directory from: ". $error['message'] . "'); window.location.href = 'main.php';</script>"; 
+      $_SESSION['error'] ="Error: " . $error['message'];
+      header('Location: main.php'); 
       exit;
+      
     } else {
       header("Location: main.php"); 
-        exit;
+      exit;
     }
 
 
@@ -50,8 +54,9 @@ if($_POST['type'] === 'directory')
     if(!rename($checkedOldname, $checkedNewname)) 
     {
       $error = error_get_last();
-      echo "<script>alert('Error renaming file from: ". $error['message'] . "'); window.location.href = 'main.php';</script>";  
-      
+      $_SESSION['error'] ="Error: " . $error['message'];
+      header('Location: main.php'); 
+      exit;
     } else {
         gobackfromRename($newname);  
     }
@@ -68,6 +73,7 @@ function gobackfromRename($newname) {
     {
        $_SESSION['filemanager_pdf'] = $newname;
         header("Location: main.php");
+        
     } else {
         header("Location: main.php");
     }

@@ -5,14 +5,10 @@ session_start();
 function checkP_DownloadOpenDelete($absoluteCpath, $data) 
 {      
     error_log("----------------checkAccess--------------------". date('d.m.Y H:i:s') . "\n", 3, 'debug.log');   
-    error_log("absoluteCpath: $absoluteCpath \n", 3, 'debug.log');
-    error_log("data: $data \n", 3, 'debug.log');
-
-
+    
     if (!isset($_SESSION["user_path"])) {
         error_log("Seession is not set \n", 3, 'debug.log');
-        return "Session is not set";
-           
+        return "Error: Session is not set";       
     } 
         $userPath = $_SESSION['user_path'];
         $basePath = rtrim($userPath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;      //provided with ChatGPT 
@@ -24,7 +20,7 @@ function checkP_DownloadOpenDelete($absoluteCpath, $data)
 
         if(!str_starts_with($currentpathReal, $basePathReal)) {   //check if the path is within the user's allowed path
             error_log("pathDestination is not part of the base directory \n", 3, 'debug.log');
-            return "pathDestination is not part of the base directory";    
+            return "Error: pathDestination is not part of the base directory";    
         }
 
         if(is_array($data)) {
@@ -49,12 +45,10 @@ function checkP_DownloadOpenDelete($absoluteCpath, $data)
         } else 
         {
         $realFile = $currentpathReal . DIRECTORY_SEPARATOR . $data;
-        if (!file_exists($realFile) ) {     //check if the file or directory exists
-         error_log("$realFile \n", 3, 'debug.log');                  
+        if (!file_exists($realFile) ) {                                     //check if the file or directory exists                 
          error_log("file or dir is not existing \n", 3, 'debug.log');
-        return "file or dir is not existing";
-        }
-         error_log("checked file: $realFile \n", 3, 'debug.log');                  
+        return "Error: file or dir is not existing";
+        }                
         return $realFile;  //return the real file path if all checks pass 
         }
 
@@ -65,7 +59,7 @@ function checkP_Move($absoluteCpath,  $dataArray, $absoluteDpath)
    error_log("----------------checkAccess-------------------- ". date('d.m.Y H:i:s') . "\n", 3, 'debug.log');
     if (!isset($_SESSION["user_path"])) {
         error_log("Seession is not set \n", 3, 'debug.log');
-        return "Seession is not set";
+        return "Error: Session is not set";
         
     }
     $userPath = $_SESSION['user_path'];
@@ -87,13 +81,13 @@ function checkP_Move($absoluteCpath,  $dataArray, $absoluteDpath)
         
     if (!file_exists($pathDestinationReal)) {
         error_log("pathDestination is not existing \n", 3, 'debug.log');
-        return "pathDestination is not existing";
+        return "Error: pathDestination is not existing";
         
     }
 
     if (!is_dir($pathDestinationReal)) {
         error_log("pathDestination is not a directory \n", 3, 'debug.log');
-        return "pathDestination is not a directory";
+        return "Error: pathDestination is not a directory";
           
     }
  
@@ -103,7 +97,7 @@ function checkP_Move($absoluteCpath,  $dataArray, $absoluteDpath)
     
     if (!str_starts_with($currentpathReal, $basePathReal)) {
         error_log("currentpath is not part of the base directory \n", 3, 'debug.log');
-        return "currentpath is not part of the base directory";
+        return "Error: currentpath is not part of the base directory";
             
       
     }
@@ -134,16 +128,14 @@ function checkP_Move($absoluteCpath,  $dataArray, $absoluteDpath)
 
 
 
-
-
 function checkP_rename($absoluteCpath, $requestnewname, $oldname)
 {
     error_log("----------------checkAccess-------------------- ". date('d.m.Y H:i:s') . " \n", 3, 'debug.log');
-    error_log("$oldname \n", 3, 'debug.log');
+    
  
     if (!isset($_SESSION["user_path"])) {
         error_log("Session is not set \n", 3, 'debug.log');
-        return "Session is not set";
+        return "Error: Session is not set";
     } 
     $userPath = $_SESSION['user_path'];
     $basePath = rtrim($userPath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;      //provided with ChatGPT 
@@ -152,18 +144,17 @@ function checkP_rename($absoluteCpath, $requestnewname, $oldname)
     $currentpathReal = realpath($currentpath); 
     $info = pathinfo($oldname);
     $extension = $info['extension'] ?? '';
-    error_log("name:        $requestnewname \n", 3, 'debug.log');
-
+    
     if(!str_starts_with($currentpathReal, $basePathReal)) {   
         error_log("pathDestination is not part of the base directory \n", 3, 'debug.log');
-        return "pathDestination is not part of the base directory"; 
+        return "Error: pathDestination is not part of the base directory"; 
     }
 
     $checkabsoluteOldname = $currentpathReal. DIRECTORY_SEPARATOR . $oldname;
      
     if (!file_exists($checkabsoluteOldname) ) {                  //check if the file or directory exists
          error_log("file or dir is not existing. $checkabsoluteOldname \n", 3, 'debug.log');
-        return false;
+        return "Error: file or dir is not existing";
     }
     $checkedOldname = $currentpathReal . DIRECTORY_SEPARATOR . $oldname;
 
@@ -172,15 +163,14 @@ function checkP_rename($absoluteCpath, $requestnewname, $oldname)
     } else    
        $checkNewname = $currentpathReal . DIRECTORY_SEPARATOR . $requestnewname;
     
-    error_log(" 2 $checkNewname \n", 3, 'debug.log');
-
+    
+       
     if (file_exists($checkNewname) ) {                 
          error_log("filename already exists \n", 3, 'debug.log');
-        return false;
+        return "Error: filename already exists";
     }
-    $checkedNewname = $checkNewname;  
-    error_log("checkedNename:        $checkedNewname \n", 3, 'debug.log');
 
+    $checkedNewname = $checkNewname;  
     return [$checkedNewname, $checkedOldname];
 
 }
@@ -193,7 +183,7 @@ function checkP_CreateFolder($absoluteCpath, $reqeustname)
         
     if (!isset($_SESSION["user_path"])) {
         error_log("Session is not set \n", 3, 'debug.log');
-        return false;
+        return "Error: Session is not set";
     } 
     $userPath = $_SESSION['user_path'];
     $basePath = rtrim($userPath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
@@ -203,7 +193,7 @@ function checkP_CreateFolder($absoluteCpath, $reqeustname)
  
     if(!str_starts_with($currentpathReal, $basePathReal)) {   
         error_log("Access denied \n", 3, 'debug.log');
-        return false;
+        return "Error: Access denied";
     }
 
     //provided with Google AI---------
@@ -211,13 +201,13 @@ function checkP_CreateFolder($absoluteCpath, $reqeustname)
 
     if(preg_match($forbiddenChars, $requestname) || str_contains($requestname, '..')) {
         error_log("Foldername contains forbidden characters\n", 3, 'debug.log');
-        return false;
+        return "Error: Foldername contains forbidden characters";
     }
    //end------------- 
     $checkfoldername = $currentpathReal.DIRECTORY_SEPARATOR. $reqeustname;   
     if(file_exists($checkfoldername))  { 
         error_log("foldername is existing \n", 3, 'debug.log');
-        return false;
+        return "Error: Foldername is already existing";
 
     }
     return $checkfoldername;
@@ -229,7 +219,7 @@ function checkP_upload($absoluteCpath, $uploadfiles)
     error_log("----------------checkAccess Upload-------------------- ". date('d.m.Y H:i:s') . "\n", 3, 'debug.log');
     if (!isset($_SESSION["user_path"])) {
         error_log("Session is not set \n", 3, 'debug.log');
-        return "Session is not set";
+        return "Error: Session is not set";
     }
     $userPath = $_SESSION['user_path'];
     $basePath = rtrim($userPath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;   
@@ -243,15 +233,14 @@ function checkP_upload($absoluteCpath, $uploadfiles)
 
     if(!str_starts_with($currentpathReal, $basePathReal)) {   
         error_log("Access denied \n", 3, 'debug.log');
-        return "Access denied";     
+        return "Error: Access denied";     
         
     }
  
     if(!isset($uploadfiles['tmp_name'])) {
         error_log("Upload error  \n", 3, 'debug.log');
-        return "Upload error";
+        return "Error: Upload error";
     }
-
 
     foreach($uploadfiles['tmp_name'] as $index => $tmpName) 
     {

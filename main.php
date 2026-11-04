@@ -620,14 +620,14 @@ session_start();
 
     <?php if (isset($_SESSION["pdf_window"]) || isset($_SESSION["image_window"])): ?>
       <script>
-        const url = '/filemanager_new/open_pdf.php';
+        const url = 'open_pdf.php';
         const target = '_blank';
         const features = 'width=800,height=600,popup=yes,resizable=yes,scrollbars=yes';
         window.open(url, target, features);
       </script>
     <?php elseif (isset($_SESSION["movie_window"])): ?>
       <script>
-        const url = '/filemanager_new/open_movie.php';
+        const url = 'open_movie.php';
         const target = '_blank';
         const features = 'width=800,height=600,popup=yes,resizable=yes,scrollbars=yes';
         window.open(url, target, features);
@@ -730,7 +730,6 @@ session_start();
 
       <?php if (isset($_SESSION['error'])): ?>
       <!-- <div class="error-message-window"> -->
-        <?php echo htmlspecialchars($_SESSION['error'], ENT_QUOTES, 'UTF-8'); ?>
           <script>
             alert("<?php echo htmlspecialchars($_SESSION['error'], ENT_QUOTES, 'UTF-8'); ?>");
           </script>
@@ -1300,9 +1299,11 @@ document.addEventListener('DOMContentLoaded', updateDropAreas);
     document.addEventListener('keydown', function (event) {
       if (event.key === 'Enter') {
       } else if (event.key === 'Escape') {
-         window.location.href = 'https://ugreennas/filemanager_new/main.php'; // Replace with your desired URL  
+         window.location.href = 'main.php'; // Replace with your desired URL  
       }
     });
+
+    
 
   </script>
 

@@ -5,14 +5,14 @@ $logFile = 'debug.log';
 // Handling deletion requests
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-  $_SESSION['error'] = "Some error occurred while processing the request.";
+  $_SESSION['error'] = "Error: Some error occurred while processing the request.";
   header('Location: main.php'); // Redirect to main.php without any path
   exit;  
     
 }
 
 if (!isset($_POST['delete'] )) {
-  $_SESSION['error'] = "Some error occurred while processing the request.";
+  $_SESSION['error'] = "Error: Some error occurred while processing the request.";
   header('Location: main.php'); // Redirect to main.php without any path
   exit('Bad Request');
 } 
@@ -60,7 +60,7 @@ if(is_file($realFile)) {
    }
 
 } else {
-      echo '<script>console.log("The specified path is neither a file nor a directory.");</script>';
+      echo '<script>console.log("Error: The specified path is neither a file nor a directory.");</script>';
       exit;
 }
 
