@@ -1,0 +1,874 @@
+/* ==========================================================================
+   Simple File Manager - macOS Finder Theme
+   Designed specifically for macOS Finder look & feel
+   Zero HTML / JS Changes - 100% Drop-in Compatible
+   ========================================================================== */
+
+:root {
+  /* macOS System Colors */
+  --macos-accent: #0071e3;
+  --macos-accent-hover: #0077ed;
+  --macos-accent-active: #005bb5;
+  --macos-danger: #ff3b30;
+  --macos-danger-hover: #d70015;
+  --macos-success: #34c759;
+  --macos-warning: #ff9500;
+
+  /* macOS Surface & Backgrounds */
+  --macos-window-bg: rgba(255, 255, 255, 0.88);
+  --macos-header-bg: rgba(246, 246, 248, 0.96);
+  --macos-toolbar-bg: rgba(255, 255, 255, 0.65);
+  --macos-pathbar-bg: rgba(242, 242, 247, 0.92);
+  --macos-content-bg: #ffffff;
+  --macos-row-hover: rgba(0, 113, 227, 0.08);
+  --macos-row-alt: rgba(0, 0, 0, 0.018);
+
+  /* macOS Text Colors */
+  --macos-text: #1d1d1f;
+  --macos-text-secondary: #86868b;
+  --macos-text-tertiary: #a1a1a6;
+
+  /* macOS Borders & Dividers */
+  --macos-border: rgba(0, 0, 0, 0.12);
+  --macos-border-subtle: rgba(0, 0, 0, 0.06);
+
+  /* macOS Shadows */
+  --macos-shadow-window: 0 28px 75px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.12);
+  --macos-shadow-menu: 0 16px 36px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.1);
+  --macos-shadow-button: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+/* ==========================================================================
+   1. Desktop Wallpaper & Window Shell
+   ========================================================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background: radial-gradient(circle at 15% 20%, #3a4b75 0%, transparent 45%),
+              radial-gradient(circle at 85% 80%, #7d3557 0%, transparent 45%),
+              radial-gradient(circle at 50% 50%, #1c2130 0%, #0d1117 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+  padding: 36px 24px;
+  color: var(--macos-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* macOS Finder Window */
+.container {
+  width: 96%;
+  max-width: 1540px;
+  margin: 0 auto;
+  background: var(--macos-window-bg);
+  backdrop-filter: blur(35px) saturate(180%);
+  -webkit-backdrop-filter: blur(35px) saturate(180%);
+  border-radius: 14px;
+  box-shadow: var(--macos-shadow-window);
+  min-height: 85vh;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.content {
+  padding: 16px 28px 8px 28px;
+  background: var(--macos-content-bg);
+}
+
+form {
+  display: inline-flex;
+  margin: 0;
+  padding: 0;
+}
+
+/* ==========================================================================
+   2. macOS Window Titlebar & Traffic Lights
+   ========================================================================== */
+
+.header {
+  background: var(--macos-header-bg);
+  color: var(--macos-text);
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  border-bottom: 1px solid var(--macos-border);
+  position: relative;
+  user-select: none;
+}
+
+/* Traffic lights removed as requested */
+
+.header h1 {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--macos-text);
+  margin: 0;
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(0, 0, 0, 0.04);
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--macos-border-subtle);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--macos-text-secondary);
+}
+
+.user-info span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* macOS Subtle Titlebar Action / Logout Button */
+.logout-btn {
+  background: rgba(255, 59, 48, 0.08) !important;
+  color: var(--macos-danger-hover) !important;
+  border: 1px solid rgba(255, 59, 48, 0.22) !important;
+  padding: 5px 12px !important;
+  border-radius: 6px !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: none !important;
+}
+
+.logout-btn:hover {
+  background: var(--macos-danger) !important;
+  color: #ffffff !important;
+  border-color: var(--macos-danger) !important;
+  box-shadow: 0 2px 6px rgba(255, 59, 48, 0.25) !important;
+}
+
+/* ==========================================================================
+   3. macOS Finder Path Bar (Breadcrumbs)
+   ========================================================================== */
+
+nav {
+  background: var(--macos-pathbar-bg);
+  padding: 8px 24px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--macos-border);
+  font-size: 12px;
+  color: var(--macos-text-secondary);
+  overflow-x: auto;
+}
+
+nav > span:first-child {
+  color: var(--macos-text-tertiary);
+  font-weight: 500;
+  font-size: 11.5px;
+  margin-right: 6px;
+}
+
+nav .droparea {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+}
+
+nav .droparea::after {
+  content: "›";
+  color: var(--macos-text-tertiary);
+  font-size: 14px;
+  font-weight: 400;
+  margin: 0 4px;
+}
+
+nav .droparea:last-child::after {
+  content: "";
+}
+
+.currentdir_buttons {
+  background: transparent !important;
+  color: var(--macos-text) !important;
+  border: 1px solid transparent !important;
+  padding: 3px 8px !important;
+  border-radius: 4px !important;
+  font-size: 12.5px !important;
+  font-weight: 500 !important;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+.currentdir_buttons:hover {
+  background: rgba(0, 0, 0, 0.06) !important;
+  color: var(--macos-accent) !important;
+}
+
+/* ==========================================================================
+   4. macOS Finder Toolbar
+   ========================================================================== */
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--macos-border-subtle);
+}
+
+.toolbar form {
+  margin: 0;
+  display: inline-flex;
+}
+
+/* macOS Finder Push Buttons */
+.createfolder,
+.upload-trigger,
+.selectfiles,
+.cancel {
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.3;
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--macos-border);
+  background: #ffffff;
+  color: var(--macos-text);
+  box-shadow: var(--macos-shadow-button);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-decoration: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.createfolder:hover,
+.upload-trigger:hover,
+.selectfiles:hover,
+.cancel:hover {
+  background: #f5f5f7;
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+.createfolder:active,
+.upload-trigger:active,
+.selectfiles:active,
+.cancel:active {
+  background: #e8e8ed;
+  transform: scale(0.98);
+}
+
+/* macOS Accent Tint for Primary Toolbar Actions */
+.upload-trigger {
+  color: var(--macos-accent);
+  border-color: rgba(0, 113, 227, 0.35);
+  background: #fbfdff;
+}
+
+.upload-trigger:hover {
+  background: #f0f7ff;
+  border-color: var(--macos-accent);
+}
+
+.selectfiles {
+  color: #7839ee;
+  border-color: rgba(120, 57, 238, 0.3);
+  background: #fdfaff;
+}
+
+.selectfiles:hover {
+  background: #f7f1ff;
+  border-color: #7839ee;
+}
+
+/* Delete Button Tint */
+#deletefiles.cancel {
+  color: var(--macos-danger-hover);
+  border-color: rgba(215, 0, 21, 0.3);
+  background: #fff8f8;
+}
+
+#deletefiles.cancel:hover {
+  background: #feeaea;
+  border-color: var(--macos-danger);
+}
+
+/* macOS Dropdown Sheet (Create Folder Panel) */
+#create_folder_div.create-folder-panel {
+  display: none;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  border: 1px solid var(--macos-border);
+  border-radius: 10px;
+  background: rgba(246, 246, 248, 0.95);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.create-folder-form,
+.rename-form {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* macOS Inputs */
+input[type="text"],
+.create-folder-name,
+.preview-input {
+  font-family: inherit;
+  padding: 6px 12px;
+  border: 1px solid var(--macos-border);
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--macos-text);
+  background: #ffffff;
+  transition: all 0.15s ease;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+input[type="text"]:focus,
+.create-folder-name:focus,
+.preview-input:focus {
+  outline: none;
+  border-color: var(--macos-accent);
+  box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.25);
+}
+
+.inline-primary-button {
+  background: var(--macos-accent) !important;
+  color: #ffffff !important;
+  border: 1px solid var(--macos-accent-active) !important;
+  padding: 6px 14px !important;
+  border-radius: 6px !important;
+  font-size: 12.5px !important;
+  font-weight: 500 !important;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+}
+
+.inline-primary-button:hover {
+  background: var(--macos-accent-hover) !important;
+}
+
+.inline-danger-button {
+  background: #ffffff !important;
+  color: var(--macos-text) !important;
+  border: 1px solid var(--macos-border) !important;
+  padding: 6px 14px !important;
+  border-radius: 6px !important;
+  font-size: 12.5px !important;
+  font-weight: 500 !important;
+  cursor: pointer;
+}
+
+.inline-danger-button:hover {
+  background: #f5f5f7 !important;
+}
+
+/* ==========================================================================
+   5. macOS Finder List View (Table)
+   ========================================================================== */
+
+.file-list-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--macos-content-bg);
+  margin-top: 0;
+}
+
+.file-list-table td:first-child {
+  padding-left: 28px;
+}
+
+.file-list-table td:last-child {
+  padding-right: 28px;
+}
+
+#create_folder_div.create-folder-panel {
+  margin: 12px 28px;
+}
+
+.file-list-table tbody tr {
+  transition: background 0.1s ease;
+}
+
+.file-list-table tbody tr:nth-child(even) {
+  background: var(--macos-row-alt);
+}
+
+.file-list-table tbody tr:hover {
+  background-color: var(--macos-row-hover) !important;
+}
+
+.file-list-table td {
+  padding: 8px 14px;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--macos-border-subtle);
+}
+
+/* File / Folder Row Cell */
+.item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.item form {
+  margin: 0;
+  padding: 0;
+  display: inline-flex;
+}
+
+/* Compact macOS Finder List Icons */
+.file-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  flex-shrink: 0;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+/* Item Name Link Buttons */
+.directory-name-button,
+.items_buttons {
+  background: transparent !important;
+  border: none !important;
+  font-family: inherit !important;
+  font-size: 13.5px !important;
+  font-weight: 450 !important;
+  color: var(--macos-text) !important;
+  cursor: pointer;
+  text-align: left;
+  padding: 4px 6px !important;
+  border-radius: 4px !important;
+  transition: color 0.1s ease;
+  box-shadow: none !important;
+}
+
+.directory-name-button:hover,
+.items_buttons:hover {
+  color: var(--macos-accent) !important;
+}
+
+/* Selection Checkbox */
+.selection-checkbox {
+  display: none;
+  width: 15px;
+  height: 15px;
+  accent-color: var(--macos-accent);
+  cursor: pointer;
+  margin-right: 2px;
+}
+
+/* Right-side Metadata & More Action */
+tbody tr > td:last-child {
+  width: 240px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+tbody tr > td:last-child > div {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: 14px;
+}
+
+/* Date Modified & Kind (macOS Finder Subdued Columns) */
+tbody tr > td:last-child > div span:first-child {
+  color: var(--macos-text-secondary);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+tbody tr > td:last-child > div span:last-child {
+  color: var(--macos-text-tertiary);
+  font-size: 11.5px;
+  font-weight: 500;
+}
+
+/* macOS Action Button (...) */
+.items_buttons_options_dir,
+.items_buttons_options_file {
+  background: rgba(0, 0, 0, 0.04) !important;
+  border: 1px solid var(--macos-border) !important;
+  color: var(--macos-text-secondary) !important;
+  font-family: inherit !important;
+  font-size: 11.5px !important;
+  font-weight: 500 !important;
+  padding: 4px 10px !important;
+  border-radius: 5px !important;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: none !important;
+}
+
+.items_buttons_options_dir:hover,
+.items_buttons_options_file:hover {
+  background: var(--macos-accent) !important;
+  color: #ffffff !important;
+  border-color: var(--macos-accent) !important;
+}
+
+/* ==========================================================================
+   6. macOS Context Menu (Floating Glass Popover)
+   ========================================================================== */
+
+#dir_options_Modalfile,
+#file_options_Modalfile {
+  position: fixed;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(25px) saturate(190%);
+  -webkit-backdrop-filter: blur(25px) saturate(190%);
+  padding: 4px;
+  border-radius: 8px;
+  width: 190px;
+  box-shadow: var(--macos-shadow-menu);
+  border: 1px solid var(--macos-border);
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+}
+
+#dir_options_Modalfile form,
+#file_options_Modalfile form {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+#dir_options_Modalfile button,
+#file_options_Modalfile button {
+  width: 100%;
+  padding: 6px 12px !important;
+  border: none !important;
+  background: transparent !important;
+  font-family: inherit !important;
+  font-size: 13px !important;
+  font-weight: 450 !important;
+  cursor: pointer;
+  transition: background 0.1s ease, color 0.1s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--macos-text) !important;
+  text-align: left;
+  border-radius: 5px !important;
+  box-shadow: none !important;
+}
+
+/* Authentic macOS Menu Selection: Full Blue Pill with White Text */
+#dir_options_Modalfile button:hover,
+#file_options_Modalfile button:hover {
+  background-color: var(--macos-accent) !important;
+  color: #ffffff !important;
+}
+
+#file_options_Modalfile button span {
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ==========================================================================
+   7. macOS Sheet Dialogs (Move View & Alerts)
+   ========================================================================== */
+
+#movedata_view {
+  position: fixed;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 520px;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border-radius: 12px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35), 0 0 0 1px var(--macos-border);
+  z-index: 1002;
+}
+
+.SelectTargetFolder {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--macos-text);
+  margin-bottom: 14px;
+  display: block;
+}
+
+.elementmoveDataView {
+  max-height: 360px;
+  overflow-y: auto;
+  border: 1px solid var(--macos-border);
+  border-radius: 8px;
+  padding: 12px;
+  background: #ffffff;
+  margin-bottom: 18px;
+}
+
+.radioElements {
+  margin-right: 8px;
+  accent-color: var(--macos-accent);
+}
+
+.listElements {
+  font-size: 13px;
+  font-weight: 450;
+  color: var(--macos-text);
+}
+
+.movedataWindow_buttons {
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid var(--macos-accent-active);
+  background: var(--macos-accent);
+  color: #ffffff;
+  transition: all 0.15s ease;
+}
+
+.movedataWindow_buttons:hover {
+  background: var(--macos-accent-hover);
+}
+
+/* ==========================================================================
+   8. Previews & Panels
+   ========================================================================== */
+
+.preview-panel {
+  padding: 20px;
+  text-align: center;
+  background: var(--macos-content-bg);
+}
+
+.preview-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.preview-image {
+  max-width: 100%;
+  max-height: 65vh;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--macos-border);
+}
+
+.preview-button-blue {
+  background: var(--macos-accent) !important;
+  color: #ffffff !important;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.preview-button-danger {
+  background: var(--macos-danger) !important;
+  color: #ffffff !important;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.text-preview {
+  width: 100%;
+  height: 480px;
+  border-radius: 8px;
+  padding: 16px;
+  font-family: "SF Mono", Monaco, Menlo, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.55;
+  border: 1px solid var(--macos-border);
+  background: #ffffff;
+  color: var(--macos-text);
+}
+
+.pdf-preview-frame {
+  width: 100%;
+  height: 80vh;
+  border-radius: 8px;
+  border: 1px solid var(--macos-border);
+}
+
+/* ==========================================================================
+   9. macOS Loader & Utility Classes
+   ========================================================================== */
+
+#div_loader {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 1050;
+}
+
+.bar {
+  width: 280px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+#barFill {
+  height: 100%;
+  width: 0%;
+  background: var(--macos-accent);
+  transition: width 0.2s ease;
+}
+
+.close-error-message {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 6px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+/* Hidden States: NO !important so JS style.display='block' works! */
+.hidden,
+#file_options_Modalfile.hidden,
+#dir_options_Modalfile.hidden,
+#movedata_view.hidden,
+#div_loader.hidden {
+  display: none;
+}
+
+#fileInput.visually-hidden {
+  display: none;
+}
+
+/* ==========================================================================
+   10. Responsive
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+
+  .container {
+    border-radius: 10px;
+  }
+
+  .header {
+    padding: 12px 16px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  /* .header::before removed */
+
+  .content {
+    padding: 14px 16px;
+  }
+
+  nav {
+    padding: 8px 16px;
+  }
+
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .toolbar form,
+  .toolbar button,
+  .upload-trigger {
+    width: 100%;
+  }
+
+  tbody tr > td:last-child {
+    width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  tbody tr {
+    display: block;
+    border-bottom: 1px solid var(--macos-border-subtle);
+    padding: 6px 0;
+  }
+
+  tbody td {
+    display: block;
+    width: 100% !important;
+    padding: 4px 8px;
+    border: none;
+  }
+
+  tbody tr > td:last-child {
+    text-align: left;
+  }
+}
+
+/* Theme Switcher Button */
+.theme-switch-btn {
+  background: rgba(0, 113, 227, 0.08) !important;
+  color: var(--macos-accent) !important;
+  border: 1px solid rgba(0, 113, 227, 0.25) !important;
+  font-size: 12px !important;
+  padding: 5px 12px !important;
+  border-radius: 6px !important;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.theme-switch-btn:hover {
+  background: var(--macos-accent) !important;
+  color: #ffffff !important;
+  border-color: var(--macos-accent) !important;
+}

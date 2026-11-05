@@ -59,29 +59,38 @@ session_start();
   $filesizes = [];
   $scanDir = rtrim($fileDir, DIRECTORY_SEPARATOR);
   $files = scandir($scanDir);
+  // AI-Optimization: Collect directories and sort them above files alphabetically
+  $dirs = [];
+  $regularFiles = [];
   foreach($files as $file) {
-          //loop for storing every filename
-          if ($file === '.' || $file === '..' || $file === '.DS_Store' || $file === '._.DS_Store' || $file === '.Spotlight-V100' || $file === '.Trashes' || $file === '.' || str_starts_with($file, '._')) {    //skip some files with "." or ..
-            continue;
-          }
-          $filePath = $fileDir.$file;                //set the file path
-          if(is_file($filePath)) {
-
-             $type[] = 'file';
-             $date[] = date('d.m.Y H:i:s', filemtime($filePath));                                   
-             $filenames[] = $file;                             //saving the filename in the array
-             $filesizes[] = filesize($filePath);
-
-            } elseif (is_dir($filePath)) {
-
-              $type[] = 'Directory';
-              $date[] = date('d.m.Y H:i:s', filemtime($filePath));
-              $filenames[] = $file;
-              $filesizes[] = filesize($filePath);
-
-            }
-
-        }
+      if ($file === '.' || $file === '..' || $file === '.DS_Store' || $file === '._.DS_Store' || $file === '.Spotlight-V100' || $file === '.Trashes' || str_starts_with($file, '._')) {
+          continue;
+      }
+      $filePath = $fileDir.$file;
+      if (is_dir($filePath)) {
+          $dirs[] = $file;
+      } elseif (is_file($filePath)) {
+          $regularFiles[] = $file;
+      }
+  }
+  natcasesort($dirs);
+  natcasesort($regularFiles);
+  $sortedFiles = array_merge(array_values($dirs), array_values($regularFiles));
+  foreach($sortedFiles as $file) {
+      $filePath = $fileDir.$file;
+      if(is_file($filePath)) {
+         $type[] = 'file';
+         $date[] = date('d.m.Y H:i:s', filemtime($filePath));
+         $filenames[] = $file;
+         $filesizes[] = filesize($filePath);
+      } elseif (is_dir($filePath)) {
+         $type[] = 'Directory';
+         $date[] = date('d.m.Y H:i:s', filemtime($filePath));
+         $filenames[] = $file;
+         $filesizes[] = filesize($filePath);
+      }
+  }
+  // End AI-Optimization (Directory sorting)
 
   //Constructing the relative web path for file operations
   $relativeWebPath = $baseFileDir.'/'.ltrim($relativeDisplayPath, '/').'/';
@@ -130,7 +139,16 @@ session_start();
 
   }
 
-
+  // AI-Optimization: Theme switcher logic (Toggle between modern Finder and classic theme)
+  if (isset($_GET['theme'])) {
+      if ($_GET['theme'] === 'classic' || $_GET['theme'] === 'modern') {
+          $_SESSION['fm_theme'] = $_GET['theme'];
+          setcookie('fm_theme', $_GET['theme'], time() + 365*24*3600, '/');
+      }
+  }
+  $currentTheme = $_SESSION['fm_theme'] ?? $_COOKIE['fm_theme'] ?? 'modern';
+  $themeCss = ($currentTheme === 'classic') ? 'style_classic.css' : 'style_modern.css';
+  // End AI-Optimization (Theme logic)
 ?>
 
 <!DOCTYPE html>
@@ -140,7 +158,9 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple File Manager</title>
-    <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
+    <!-- AI-Optimization: Dynamic stylesheet inclusion (style_modern.css vs. style_classic.css) -->
+    <link rel="stylesheet" href="<?php echo $themeCss; ?>?v=<?php echo time(); ?>">
+    <!-- End AI-Optimization -->
     </head>
 
     <body>
@@ -152,6 +172,14 @@ session_start();
       <span>🖥️ IP: <?php echo htmlspecialchars($_SERVER['REMOTE_ADDR'], ENT_QUOTES, 'UTF-8'); ?></span>
     </div>
     <div class="header-actions">
+    <!-- AI-Optimization: Theme toggle button (Finder vs. Classic) -->
+    <form method="get" action="" style="display:inline;">
+      <input type="hidden" name="theme" value="<?php echo $currentTheme === 'classic' ? 'modern' : 'classic'; ?>">
+      <button type="submit" class="logout-btn theme-switch-btn" title="Switch theme">
+        <?php echo $currentTheme === 'classic' ? '🍏 Finder Theme' : '🎨 Classic Theme'; ?>
+      </button>
+    </form>
+    <!-- End AI-Optimization -->
     <form method="post" action="logout.php">
       <input type="hidden" name="logout" value="true">
       <button type="submit" class="logout-btn">🚪 Logout</button>
@@ -349,7 +377,7 @@ session_start();
           <input type="hidden" name="delete" value="<?php echo htmlspecialchars($name, ENT_QUOTES, 'UTF-8'); ?>">
           <input type="hidden" name="condition" value="from_image_display">
           <button type="submit" name="delete_image_file"
-            class="preview-button-danger">Löschen</button>
+            class="preview-button-danger">Delete</button>
         </form>
           <!-- <button type="button" name="delete_image_file"
             class="preview-button-danger btn-delete" onclick="func_deletefiles(<?php //echo htmlspecialchars(json_encode($name), ENT_QUOTES, 'UTF-8'); ?>)">Löschen</button> -->
@@ -431,7 +459,7 @@ session_start();
                 <input type="hidden" name="oldname" value="<?php echo htmlspecialchars($filenames[$i], ENT_QUOTES, 'UTF-8'); ?>">
                 <input type="hidden" name="type" value="directory">
                 <button type="submit"
-                  class="inline-primary-button">Speichern</button>
+                  class="inline-primary-button">Save</button>
                 <button name="cancel" type="button"
                   onclick="document.getElementById('rename_divdir_<?php echo htmlspecialchars($filenames[$i], ENT_QUOTES, 'UTF-8'); ?>').style.display='none';"
                   class="inline-danger-button">Cancel</button>
@@ -476,7 +504,7 @@ session_start();
                     value="<?php echo htmlspecialchars($filenames[$i], ENT_QUOTES, 'UTF-8'); ?>">
                   <input type="hidden" name="type" value="file">
                   <button type="submit"
-                    class="inline-primary-button">Speichern</button>
+                    class="inline-primary-button">Save</button>
                   <button name="cancel" type="button"
                     onclick="document.getElementById('rename_divfile_<?php echo htmlspecialchars($filenames[$i], ENT_QUOTES, 'UTF-8'); ?>').style.display='none';"
                     class="inline-danger-button">Cancel</button>
@@ -516,7 +544,7 @@ session_start();
                     value="<?php echo htmlspecialchars($filenames[$i], ENT_QUOTES, 'UTF-8'); ?>">
                   <input type="hidden" name="type" value="file">
                   <button type="submit"
-                    class="inline-primary-button">Speichern</button>
+                    class="inline-primary-button">Save</button>
                   <button name="cancel" type="button"
                     onclick="document.getElementById('rename_divfile_<?php echo htmlspecialchars($filenames[$i], ENT_QUOTES, 'UTF-8'); ?>').style.display='none';"
                     class="inline-danger-button">Cancel</button>
@@ -739,13 +767,17 @@ session_start();
     <?php endif; ?>
       
     
-
-    <div id="div_loader" class="hidden">
+    <div id="div_loader" class="UploadLoader"style="display: none;">
       Data is being loaded, please wait...
-      <br>
-      </div>
-    </body>
+      <button class="close-error-message" onclick="window.location.reload()">Cancel</button>
+      
+    </div>
 
+
+
+
+
+    </body>
     </html>
 
 
