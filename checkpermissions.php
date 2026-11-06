@@ -199,7 +199,7 @@ function checkP_CreateFolder($absoluteCpath, $reqeustname)
     //provided with Google AI---------
     $forbiddenChars = '/[\/\\\\?*:|"<>#%&{}\\^~\[\]`]/';
 
-    if(preg_match($forbiddenChars, $requestname) || str_contains($requestname, '..')) {
+    if(preg_match($forbiddenChars,  $reqeustname) || str_contains($reqeustname, '..')) {
         error_log("Foldername contains forbidden characters\n", 3, 'debug.log');
         return "Error: Foldername contains forbidden characters";
     }

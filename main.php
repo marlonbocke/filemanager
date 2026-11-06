@@ -767,11 +767,17 @@ session_start();
     <?php endif; ?>
       
     
-    <div id="div_loader" class="UploadLoader"style="display: none;">
-      Data is being loaded, please wait...
-      <button class="close-error-message" onclick="window.location.reload()">Cancel</button>
-      
+    <!-- AI-Optimization: Enhanced macOS-style Upload Progress Modal Window -->
+    <div id="div_loader" class="UploadLoader" style="display: none;">
+      <div class="upload-loader-card">
+        <div class="upload-spinner"></div>
+        <div class="upload-title">Uploading Files...</div>
+        <div class="upload-subtitle">Please wait while your files are being transferred to the server</div>
+        <div class="upload-progressbar"><div class="upload-progressfill"></div></div>
+        <button type="button" class="close-error-message" onclick="window.location.reload()">Cancel Upload</button>
+      </div>
     </div>
+    <!-- End AI-Optimization -->
 
 
 

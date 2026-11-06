@@ -1031,3 +1031,95 @@ video {
 .theme-switch-btn:hover {
   background: rgba(255, 255, 255, 0.35) !important;
 }
+
+/* Upload Modal Window Enhancements */
+#div_loader {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 10000;
+}
+
+.upload-loader-card {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 420px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 30px 26px 22px 26px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+  text-align: center;
+  color: #1d1d1f;
+}
+
+.upload-spinner {
+  width: 44px;
+  height: 44px;
+  margin: 0 auto 16px auto;
+  border: 3.5px solid rgba(102, 126, 234, 0.2);
+  border-top-color: #667eea;
+  border-radius: 50%;
+  animation: uploadSpin 0.85s linear infinite;
+}
+
+@keyframes uploadSpin {
+  to { transform: rotate(360deg); }
+}
+
+.upload-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1d1d1f;
+  margin-bottom: 6px;
+}
+
+.upload-subtitle {
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 18px;
+  line-height: 1.4;
+}
+
+.upload-progressbar {
+  width: 100%;
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 9999px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.upload-progressfill {
+  height: 100%;
+  width: 100%;
+  border-radius: 9999px;
+  background-image: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #667eea 100%);
+  background-size: 200% 100%;
+  animation: uploadProgressPulse 1.6s ease-in-out infinite;
+}
+
+@keyframes uploadProgressPulse {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
+#div_loader .close-error-message {
+  background: #f3f4f6 !important;
+  color: #374151 !important;
+  border: 1px solid #d1d5db !important;
+  padding: 8px 20px !important;
+  border-radius: 8px !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+#div_loader .close-error-message:hover {
+  background: #e5e7eb !important;
+}
