@@ -1,3 +1,4 @@
+<!-- //developed with AI assistance -->
 <?php
 session_start();
 
