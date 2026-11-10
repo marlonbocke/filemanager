@@ -42,7 +42,7 @@ $config[0] =
 $saved=file_put_contents($file, json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
 if ($saved) {
-    echo "<script>alert('Config saved'); window.location.href = '/filemanager_new/index.php';</script>";
+    echo "<script>alert('Config saved'); window.location.href = '/services/filemanager_new/index.php';</script>";
 } else {
     echo "<script>alert('Config haven't been saved. Please try again')</script>";
     return;

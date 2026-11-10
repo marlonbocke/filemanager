@@ -18,6 +18,6 @@ if(!json_validate($content))
  }   
 
 
-header("Location: login.html");
+header("Location: /services/filemanager_new/2FA-Setup/index.php");
 exit;
 ?>

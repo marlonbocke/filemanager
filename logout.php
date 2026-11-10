@@ -5,7 +5,7 @@ session_start();
       error_log("-----------------------logout----------------" . date('d.m.Y H:i:s') . "\n", 3, 'debug.log');
     $_SESSION = array();
     session_destroy();
-    header("Location: index.php");
+    header("Location: /services/filemanager_new/2FA-Setup/index.php");
     exit;
     }
 
